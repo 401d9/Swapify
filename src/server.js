@@ -4,6 +4,7 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+const router =require('./auth/routes.js')
 
 // Esoteric Resources
 const errorHandler = require('./error-handlers/500.js');
@@ -21,7 +22,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use();
+app.use('/',router);
 
 // Catchalls
 app.use(notFound);
