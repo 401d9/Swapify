@@ -17,12 +17,12 @@
   - [install and run](#install-and-run)
 - [Authors Links](#Authors-Links)
 - [Other links](#Other-links)
-    - [Team Agreement](#a)
-    - [Wireframes](#a)
-    - [User Stories](#a)
-    - [Software Requirements](#a)
-    - [Domain Modeling](#a)
-    - [Database](#a)
+    - [Team Agreement](./requirements/team_agreement.md)
+    - [Wireframes](./requirements/wireframes.md)
+    - [User Stories](./requirements/user_stories.md)
+    - [Software Requirements](./requirements/software_requirements.md)
+    - [Domain Modeling](./requirements/domain_modeling.md)
+    - [Database](./requirements/database_schema.md)
 
 ---
 
