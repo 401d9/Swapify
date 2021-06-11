@@ -1,0 +1,31 @@
+{
+  "name": "Swapo",
+  "version": "1.0.0",
+  "description": "<img src=\"./assets/logo.PNG\" style=\"height:50px; float:left\"> <h1 >&nbsp;&nbsp;&nbsp;Swapo</h1>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/401d9/Swapo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/401d9/Swapo/issues"
+  },
+  "homepage": "https://github.com/401d9/Swapo#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cookie-session": "^1.4.0",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.12.13",
+    "morgan": "^1.10.0",
+    "passport": "^0.4.1",
+    "passport-google-oauth20": "^2.0.0"
+  }
+}
