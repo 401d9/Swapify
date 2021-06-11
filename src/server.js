@@ -4,12 +4,10 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+
 const passport = require('passport'); 
 const cookieSession = require('cookie-session'); 
-
-
-
-
+const router =require('./auth/routes.js')
 
 // Esoteric Resources
 const errorHandler = require('./error-handlers/500.js');
@@ -38,8 +36,7 @@ app.use(passport.session());
 // Routes
 // app.use();
 app.use(googleAuth); 
-
-
+app.use('/',router);
 
 // Catchalls
 app.use(notFound);
