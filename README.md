@@ -28,9 +28,9 @@
 
 ## Swapo
 
-- Do you ever need a service ? Help ? And you need someone who already experts! I am sure that you do, so what you should do?
-- Easy and simple answer for this question! You should use `Swapo`.
-- What is `Swapo` ? It is a web app that connect many of service providers and those give their services for each other by swap the knowledge and expertise.
+- Do you ever need a service? Help? And you need someone who already an expert! I am sure that you do, so what you should do?
+- Easy and simple answer to this question! You should use `Swapo`.
+- What is `Swapo` ? It is a web app that connects many service providers and those who give their services to each other by swap their knowledge and expertise.
 
 **[⬆ Back to Index](#index)**
 
