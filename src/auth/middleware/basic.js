@@ -4,34 +4,25 @@ const bcrypt = require('bcrypt');
 const base64 = require('base-64');
 const User = require('../models/users-model.js');
 
-module.exports = async (req, res, next) => {
-
-
+module.exports = async (req,res,next) =>  {
+  console.log(req.headers.authorization);
+  const encoded = req.headers.authorization.split(' ')[1];
+  console.log('req.headers :',req.headers.authorization);
+  console.log('encoded :',encoded);
+  const decoded = base64.decode(encoded);
+  console.log('decoded : ',decoded);
+  const [username,password] = decoded.split(':');
   try {
-    const encoded = req.headers.authorization.split(' ')[1];
-    const decoded = base64.decode(encoded);
-    console.log('13',decoded)
-    const [username, password] = decoded.split(':');
-    const user = await User.findOne({ username });
-    console.log('16',user);
-    if (user) {
-      const isValid = await bcrypt.compare(password, user.password);
-
-      if (isValid) {
-        req.user = user;
-        next();
-
-      } else {
-        next({ message: 'Invalid password' });
-      }
-    } else {
-      res.status(403).send('Invalid user name');
-
+    const user = await User.findOne({username});
+    const isValid = await bcrypt.compare(password,user.password);
+    if(isValid){
+      req.user = user; 
+      next();
     }
-
+    else{
+      next({error:'Incorrect username or password'});
+    }
   } catch (error) {
-    res.status(401).json('Invalid login');
+    next({error:'Incorrect username or password'});
   }
-}
-
-
+};
