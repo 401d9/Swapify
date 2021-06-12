@@ -19,6 +19,7 @@ const users = new mongoose.Schema({
   notifications:[notificationsSchema],
   role:{type:String,required:true,default:'user',enum:['user','admin']},
   //add role here 
+
 });
 
 const messagesSchema = new mongoose.Schema({
