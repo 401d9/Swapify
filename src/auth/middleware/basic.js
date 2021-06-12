@@ -10,8 +10,10 @@ module.exports = async (req, res, next) => {
   try {
     const encoded = req.headers.authorization.split(' ')[1];
     const decoded = base64.decode(encoded);
+    console.log('13',decoded)
     const [username, password] = decoded.split(':');
     const user = await User.findOne({ username });
+    console.log('16',user);
     if (user) {
       const isValid = await bcrypt.compare(password, user.password);
 

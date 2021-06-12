@@ -7,7 +7,6 @@ const bcrypt = require('bcrypt');
 const users = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  //add role here 
 });
 
 //****Basic Auth*****//
