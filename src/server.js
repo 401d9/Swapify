@@ -52,6 +52,12 @@ app.get('/oauth', oauth, (req, res) => {
   res.json({ token: req.token, user: req.user });
 });
 
+app.get('/logout', (req, res) => {
+  req.session = null;
+  req.logOut();
+  res.redirect('/');
+});
+
 // Catchalls
 
 app.use(notFound);
