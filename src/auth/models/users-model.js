@@ -7,13 +7,13 @@ const bcrypt = require('bcrypt');
 
 
 const users = new mongoose.Schema({
-  email:{type:String,required:true,unique:true},
-  name:{type:String,required:true},
+  // email:{type:String,required:true,unique:true},
+  name:{type:String},
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  service:{type:String,required:true},
-  experience:{type:String,required:true},
-  descriptionOfUser:{type:String,required:true},
+  service:{type:String},
+  experience:{type:String},
+  descriptionOfUser:{type:String},
   messages:[messagesSchema],
   dashboard:[dashboardSchema],
   notifications:[notificationsSchema],
@@ -31,7 +31,7 @@ const dashboardSchema = mongoose.Schema({
 });
 
 const notificationsSchema = mongoose.Schema({
-  link:{type:String,required:true},
+  link:{type:String},
 });
 users.virtual('capabilities').get(function(){
   let acl = {
