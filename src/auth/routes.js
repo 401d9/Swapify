@@ -7,15 +7,13 @@ const basicAuth = require('./middleware/basic.js');
 const bearerAuth=require('./middleware/bearer.js');
 
 router.get('/',(req,res)=>{
-    res.render('./pages/home');
-  });
+  res.render('pages/home');
+});
 
 
-  router.get('/signup',(req,res)=>{
-    res.render('./pages/register');
-  })
-
-  
+router.get('/signup',(req,res)=>{
+  res.render('pages/register');
+});
 
 router.post('/signup', async (req, res, next) => {
   try {
@@ -25,27 +23,33 @@ router.post('/signup', async (req, res, next) => {
       user: userRecord,
       token: userRecord.token,
     };
-    res.status(201).json(output);
+
+    // res.status(201).json(output);
+    res.redirect('/profile');
+    
   } catch (e) {
     next(e.message);
   }
 });
 
-router.get('/profile',(req,res)=>{
-  res.render('./pages/profile');
-})
+
+
+
 
 
 router.get('/signin',(req,res)=>{
-  res.render('./pages/signin');
-})
+  res.render('pages/signin');
+});
 
 router.post('/signin', basicAuth, (req, res, next) => {
   const user = {
     user: req.user,
     token: req.user.token,
   };
-  res.status(200).json(user);
+  res.status(200).redirect('/profile');
+});
+router.get('/profile',(req,res)=>{
+  res.render('pages/profile');
 });
 
 router.get('/users', bearerAuth, async (req, res, next) => {
