@@ -8,6 +8,10 @@ const morgan = require('morgan');
 const passport = require('passport'); 
 const cookieSession = require('cookie-session'); 
 const router =require('./auth/routes.js')
+const multer = require('multer');
+const multParse = multer();
+const methodOverride = require('method-override');
+
 
 // Esoteric Resources
 const errorHandler = require('./error-handlers/500.js');
@@ -17,6 +21,8 @@ const googleAuth = require('./auth/middleware/google-auth');
 
 // Prepare the express app
 const app = express();
+app.set('view engine','ejs');
+
 
 app.use(cookieSession({ 
   name: 'tuto-session',
@@ -26,6 +32,8 @@ app.use(cookieSession({
 // App Level MW
 app.use(cors());
 app.use(morgan('dev'));
+app.use(multParse.none());
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -38,7 +46,10 @@ app.use(passport.session());
 app.use(googleAuth); 
 app.use('/',router);
 
+
+
 // Catchalls
+
 app.use(notFound);
 app.use(errorHandler);
 
