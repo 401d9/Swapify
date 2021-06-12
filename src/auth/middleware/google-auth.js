@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 require('./google-passport-setup');
 app.use(cors());
+const UserModel = require('../models/users-model');
 
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -33,9 +34,26 @@ const isLoggedIn = (req, res, next) => {
 google.get('/failed', (req, res) => {
   res.send('You failed to login :( ');
 });
-google.get('/good', isLoggedIn, (req, res) => {
-  res.send(req.user);
+google.get('/good', isLoggedIn, async (req, res) => {
+  // res.send(req.user);
   // res.send(`Welcome ${req.user.displayName}`);
+  const username = req.user.emails[0].value;
+  const password = '1234';
+  let obj = {
+    username: username,
+    password: password,
+    descriptionOfUser: 'X user description X',
+    experience: 'X experience X',
+    service: 'X service X',
+    name: 'X name X',
+    email: 'X email X'
+  };
+  try {
+    const record = new UserModel(obj);
+    const savedRecord = await record.save();
+    res.send(req.user);
+  }
+  catch (e) { console.log(e) }
 });
 
 google.get('/google',
@@ -55,3 +73,4 @@ google.get('/google/callback',
 // });
 
 module.exports = google;
+
