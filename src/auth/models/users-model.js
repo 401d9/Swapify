@@ -4,13 +4,34 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 //user schema 
+
+
 const users = new mongoose.Schema({
+  email:{type:String,required:true,unique:true},
+  name:{type:String,required:true},
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  service:{type:String,required:true},
+  experience:{type:String,required:true},
+  descriptionOfUser:{type:String,required:true},
+  messages:[messagesSchema],
+  dashboard:[dashboardSchema],
+  notifications:[notificationsSchema],
   role:{type:String,required:true,default:'user',enum:['user','admin']},
   //add role here 
 });
 
+const messagesSchema = new mongoose.Schema({
+  message:{type:String},
+});
+
+const dashboardSchema = mongoose.Schema({
+  descriptionOfService:{type:String},
+});
+
+const notificationsSchema = mongoose.Schema({
+  link:{type:String,required:true},
+});
 users.virtual('capabilities').get(function(){
   let acl = {
     user:['read','create','update','delete'],
