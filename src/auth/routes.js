@@ -6,6 +6,15 @@ const User = require ('./models/users-model.js');
 const basicAuth = require('./middleware/basic.js');
 const bearerAuth=require('./middleware/bearer.js');
 
+router.get('/',(req,res)=>{
+  res.render('pages/home');
+});
+
+
+router.get('/signup',(req,res)=>{
+  res.render('pages/register');
+});
+
 router.post('/signup', async (req, res, next) => {
   try {
     let user = new User(req.body);
@@ -14,10 +23,22 @@ router.post('/signup', async (req, res, next) => {
       user: userRecord,
       token: userRecord.token,
     };
-    res.status(201).json(output);
+
+    // res.status(201).json(output);
+    res.redirect('/profile');
+    
   } catch (e) {
     next(e.message);
   }
+});
+
+
+
+
+
+
+router.get('/signin',(req,res)=>{
+  res.render('pages/signin');
 });
 
 router.post('/signin', basicAuth, (req, res, next) => {
@@ -25,17 +46,20 @@ router.post('/signin', basicAuth, (req, res, next) => {
     user: req.user,
     token: req.user.token,
   };
-  res.status(200).json(user);
+  res.status(200).redirect('/profile');
+});
+router.get('/profile',(req,res)=>{
+  res.render('pages/profile');
 });
 
 router.get('/users', bearerAuth, async (req, res, next) => {
   //all users
-  // const users = await User.find({});
-  // const list = users.map(user => user.username);
-  // res.status(200).json(list);
+  const users = await User.find({});
+  const list = users.map(user => user.username);
+  res.status(200).json(list);
 
   //one user
-  await res.status(200).json({user : req.user.username}); 
+  // await res.status(200).json({user : req.user.username}); 
      
 });
 
