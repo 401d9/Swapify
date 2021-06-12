@@ -32,11 +32,6 @@ router.post('/signup', async (req, res, next) => {
   }
 });
 
-
-
-
-
-
 router.get('/signin',(req,res)=>{
   res.render('pages/signin');
 });
