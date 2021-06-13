@@ -25,7 +25,7 @@ router.post('/signup', async (req, res, next) => {
     };
 
     // res.status(201).json(output);
-    res.redirect('/profile');
+    res.status(201).redirect('/profile');
     
   } catch (e) {
     next(e.message);

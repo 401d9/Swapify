@@ -2,8 +2,21 @@
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const SECRET = process.env.SECRET;
 
 //user schema 
+
+const messagesSchema = new mongoose.Schema({
+  message:{type:String},
+});
+
+const dashboardSchema = mongoose.Schema({
+  descriptionOfService:{type:String},
+});
+
+const notificationsSchema = mongoose.Schema({
+  link:{type:String},
+});
 
 
 const users = new mongoose.Schema({
@@ -22,17 +35,6 @@ const users = new mongoose.Schema({
 
 });
 
-const messagesSchema = new mongoose.Schema({
-  message:{type:String},
-});
-
-const dashboardSchema = mongoose.Schema({
-  descriptionOfService:{type:String},
-});
-
-const notificationsSchema = mongoose.Schema({
-  link:{type:String},
-});
 users.virtual('capabilities').get(function(){
   let acl = {
     user:['read','create','update','delete'],
