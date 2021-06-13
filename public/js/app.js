@@ -4,6 +4,7 @@ $('#singInForm').submit(function (e) {
   e.preventDefault();
   let url = '/signin';
   let username = $('#username1').val();
+
   let password = $('#password1').val();
 
   let header = new Headers();
@@ -31,8 +32,8 @@ $('#singInForm').submit(function (e) {
 
 const authorizeUrl = 'https://www.facebook.com/v10.0/dialog/oauth';
 const options = {
-  //'https://fb-outh-by-nour.herokuapp.com/facebookOauth'
-  client_id: '1243292162768569',
+   //'https://fb-outh-by-nour.herokuapp.com/facebookOauth'
+  client_id: '855648615091740',
   // redirect_uri: 'http://localhost:3000/oauth',
   redirect_uri:'http://localhost:4222/oauth' ,
   state: 'some_random_string',
