@@ -38,6 +38,23 @@ let users = {
 };
 
 
+let dashboard = [
+  {
+    serviceNeeded:faker.name.jobTitle(),
+    username:faker.name.firstName(),
+    name:faker.name.findName(),
+    date:faker.date.future(),
+    text:faker.lorem.sentences(),
+  },
+  {
+    serviceNeeded:faker.name.jobTitle(),
+    username:faker.name.firstName(),
+    name:faker.name.findName(),
+    date:faker.date.future(),
+    text:faker.lorem.sentences(),
+  },
+];
+
 
 
 describe('DB',() => {
@@ -111,5 +128,41 @@ describe('DB',() => {
       expect(res.status).toBe(200);
       expect(userObject.user.notifications.length).toBe(1);
       expect(userObject.user.notifications[0].link).toBe(users.y.notifications[0].link);
+    });});
+
+  describe('Add to the Dashboard',() => {
+    it('should successfully Add To the dashboard', async () => {
+      const res = await mockRequest.get('/addToDashboard').send(dashboard[0]);
+      const userObject = res.body;
+      
+      expect(res.status).toBe(201);
+      expect(userObject.serviceNeeded).toBe(dashboard[0].serviceNeeded);
+      expect(userObject.username).toBe(dashboard[0].username);
+      expect(userObject.name).toBe(dashboard[0].name);
+      expect(userObject.text).toBe(dashboard[0].text);
+    });});
+  
+  describe('Add multi post to the Dashboard',() => {
+    dashboard.forEach((elm)=>{
+      it('should successfully add to the dashboard', async () => {
+        const res = await mockRequest.get('/addToDashboard').send(elm);
+        const userObject = res.body;
+  
+        expect(res.status).toBe(201);
+        expect(userObject.serviceNeeded).toBe(elm.serviceNeeded);
+        expect(userObject.username).toBe(elm.username);
+        expect(userObject.name).toBe(elm.name);
+        expect(userObject.text).toBe(elm.text);
+      });
+    });
+  });
+  
+  describe('dashboard',() => {
+    it('should successfully return the dashboard', async () => {
+      const res = await mockRequest.get('/dashboard');
+      const userObject = res.body;
+  
+      expect(res.status).toBe(200);
+      expect(userObject.length).toBe(3);
     });});
 });
