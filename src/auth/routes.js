@@ -24,8 +24,8 @@ router.post('/signup', async (req, res, next) => {
       token: userRecord.token,
     };
 
-    // res.status(201).json(output);
-    res.status(201).redirect('/profile');
+    res.status(201).json(output);
+    // res.status(201).redirect('/profile');
     
   } catch (e) {
     next(e.message);
@@ -46,7 +46,8 @@ router.post('/signin', basicAuth, (req, res, next) => {
     user: req.user,
     token: req.user.token,
   };
-  res.status(200).redirect('/profile');
+  res.status(200).json(user);
+  // res.status(200).redirect('/profile');
 });
 router.get('/profile',(req,res)=>{
   res.render('pages/profile');
