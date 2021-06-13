@@ -1,7 +1,7 @@
 'use strict';
 
 const passport = require('passport');
-var GoogleStrategy = require('passport-google-oauth20').Strategy;
+let GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 passport.serializeUser(function(user, done) {
   done(null, user);
