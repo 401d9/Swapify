@@ -37,6 +37,7 @@ google.get('/failed', (req, res) => {
 google.get('/good', isLoggedIn, async (req, res) => {
   // res.send(req.user);
   // res.send(`Welcome ${req.user.displayName}`);
+
   const username = req.user.emails[0].value;
   const password = '1234';
   let obj = {
@@ -49,9 +50,17 @@ google.get('/good', isLoggedIn, async (req, res) => {
     email: 'X email X'
   };
   try {
-    const record = new UserModel(obj);
-    const savedRecord = await record.save();
-    res.send(req.user);
+    const test = UserModel.findOne(obj.username)
+    if (test) {
+      res.send(req.user);
+    }
+    else {
+      const record = new UserModel(obj);
+      const savedRecord = await record.save();
+      res.send(req.user);
+
+    }
+
   }
   catch (e) { console.log(e) }
 });
@@ -71,6 +80,9 @@ google.get('/google/callback',
 //   req.logOut();
 //   res.redirect('/');
 // });
+
+
+
 
 module.exports = google;
 

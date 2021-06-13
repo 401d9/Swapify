@@ -6,6 +6,25 @@ const bcrypt = require('bcrypt');
 //user schema 
 
 
+<<<<<<< HEAD
+=======
+const users = new mongoose.Schema({
+  // email:{type:String,required:true,unique:true},
+  name:{type:String},
+  username: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  service:{type:String},
+  experience:{type:String},
+  descriptionOfUser:{type:String},
+  messages:[messagesSchema],
+  dashboard:[dashboardSchema],
+  notifications:[notificationsSchema],
+  role:{type:String,required:true,default:'user',enum:['user','admin']},
+  //add role here 
+
+});
+
+>>>>>>> 439990c911012c6239e7742e239e69a8aad54c75
 const messagesSchema = new mongoose.Schema({
   message:{type:String},
 });
@@ -15,7 +34,7 @@ const dashboardSchema = mongoose.Schema({
 });
 
 const notificationsSchema = mongoose.Schema({
-  link:{type:String,required:true},
+  link:{type:String},
 });
 const users = new mongoose.Schema({
   // email:{type:String,required:true,unique:true},
