@@ -81,5 +81,3 @@ users.statics.authenticateWithToken = async function (token) {
 
 
 module.exports = mongoose.model('users', users);
-
-
