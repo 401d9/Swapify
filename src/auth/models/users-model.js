@@ -2,6 +2,7 @@
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const SECRET = process.env.SECRET;
 
 //user schema 
 
@@ -32,7 +33,6 @@ const users = new mongoose.Schema({
   //add role here 
 
 });
-
 
 users.virtual('capabilities').get(function(){
   let acl = {
@@ -81,5 +81,3 @@ users.statics.authenticateWithToken = async function (token) {
 
 
 module.exports = mongoose.model('users', users);
-
-

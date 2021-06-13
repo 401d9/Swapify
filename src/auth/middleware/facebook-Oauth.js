@@ -13,7 +13,7 @@ const User = require('../models/users-model');
 
 
 module.exports = async (req, res, next) => {
-  // 2. Users are redirected back to your site by facebook
+  // 2. Users are redirected back to your site by Facebook
   try {
     console.log('<-------:query object:----->', req.query);
     const code = req.query.code;
