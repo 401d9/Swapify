@@ -5,13 +5,24 @@ const bcrypt = require('bcrypt');
 const SECRET = process.env.SECRET;
 
 //user schema 
-
+/*{ username: 'Mustafa', text: 'Hi shady!', time: '11:28 pm' }
+{
+  username: 'Mustafa',
+  text: 'I want to ask about your service ?',
+  time: '11:28 pm'
+}
+{ username: 'Shady', text: 'Yes!', time: '11:28 pm' }
+*/
 const messagesSchema = new mongoose.Schema({
-  message:{type:String},
+  username:{type:String},
+  text:{type:String},
+  time:{type:String},
 });
 
 const dashboardSchema = mongoose.Schema({
-  descriptionOfService:{type:String},
+  serviceNeeded:{type:String},
+  date:{type:String},
+  text:{type:String},
 });
 
 const notificationsSchema = mongoose.Schema({
