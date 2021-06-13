@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const User = require ('./models/users-model.js');
 const basicAuth = require('./middleware/basic.js');
 const bearerAuth=require('./middleware/bearer.js');
+const Dashboard=require('./models/dashboard-model.js');
 
 router.get('/',(req,res)=>{
   res.render('pages/home');
@@ -57,6 +58,23 @@ router.get('/users', bearerAuth, async (req, res, next) => {
   //one user
   // await res.status(200).json({user : req.user.username}); 
      
+});
+
+router.get('/addToDashboard', async (req, res, next) => {
+  try {
+    let dashboard = new Dashboard(req.body);
+    const dashboardRecord = await dashboard.save();
+    res.status(201).json(dashboardRecord);
+    
+  } catch (e) {
+    next(e.message);
+  }
+});
+router.get('/dashboard', async (req, res, next) => {
+  //dashboard
+  const dashboard = await Dashboard.find({});
+  res.status(200).json(dashboard);
+
 });
 
 router.get('/secret', bearerAuth, async (req, res, next) => {
