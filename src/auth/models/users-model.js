@@ -17,10 +17,6 @@ const dashboardSchema = mongoose.Schema({
 const notificationsSchema = mongoose.Schema({
   link:{type:String},
 });
-<<<<<<< HEAD
-
-=======
->>>>>>> 4b4d585e02119a0b2ce9e2d0bca295e7f30d74e3
 
 const users = new mongoose.Schema({
   // email:{type:String,required:true,unique:true},
@@ -38,10 +34,6 @@ const users = new mongoose.Schema({
 
 });
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 4b4d585e02119a0b2ce9e2d0bca295e7f30d74e3
 users.virtual('capabilities').get(function(){
   let acl = {
     user:['read','create','update','delete'],
