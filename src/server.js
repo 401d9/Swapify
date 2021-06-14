@@ -60,14 +60,14 @@ app.get('/chat', function(request, response) {
   let room = faker.datatype.number();
   console.log('id,room,line71',id,room);
  
-  response.render('main',{data:[id, room]});
+  response.render('pages/main',{data:[id, room]});
 
 });
 
 app.get('/private', function(request, response) {
 
 
-  response.render('chat');
+  response.render('pages/chat');
 
 });
 
