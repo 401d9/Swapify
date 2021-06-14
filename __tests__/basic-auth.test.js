@@ -14,15 +14,12 @@ let user={
   username: 'ashar',
   password: '1111',
 };
-
 describe('authentication test', () => {
 
   it('should create a new User on POST /signup', async () => {
     const response = await request.post('/signup').send(user);
     expect(response.status).toEqual(201);
-    console.log(response.body);
-    expect(response.body.user.username).toEqual('ashar');
-    
+    expect(response.body.user.username).toEqual('ashar');    
   });
 
   it('should Sign In test',async ()=>{

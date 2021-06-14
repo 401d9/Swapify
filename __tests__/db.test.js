@@ -16,6 +16,7 @@ let users = {
 
   x:{
     username:'Mr.X',
+    rate: [4,5,2,3],
     password:'pass',
     service:'Electrical',
     experience:'15 years',
@@ -28,6 +29,7 @@ let users = {
   },
   y:{
     username:'Mr.Y',
+    rate: [2,2,4,3],
     password:'pass',
     service:'Teaching',
     experience:'1.5 years',
@@ -66,6 +68,7 @@ describe('DB',() => {
 
       expect(res.status).toBe(201);
       expect(userObject.user.username).toBe(users.x.username);
+      expect(userObject.user.rate).toEqual([3.5]);
       expect(userObject.user.service).toBe(users.x.service);
       expect(userObject.user.experience).toBe(users.x.experience);
       expect(userObject.user.descriptionOfUser).toBe(users.x.descriptionOfUser);
@@ -78,6 +81,7 @@ describe('DB',() => {
     
       expect(res.status).toBe(201);
       expect(userObject.user.username).toBe(users.y.username);
+      expect(userObject.user.rate).toEqual([2.8]);
       expect(userObject.user.service).toBe(users.y.service);
       expect(userObject.user.experience).toBe(users.y.experience);
       expect(userObject.user.descriptionOfUser).toBe(users.y.descriptionOfUser);
