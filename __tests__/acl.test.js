@@ -9,8 +9,8 @@ const {expect} = require('@jest/globals');
 const mockRequest = supergoose(server);
 
 let roles = {
-  user:{username:'user',password:'pass'},
-  admin:{username:'admin',password:'pass',role:'admin'},
+  user:{username:'user',password:'pass', rate:[1,2,5,4]},
+  admin:{username:'admin',password:'pass',role:'admin', rate:[1,2,5,4]},
 };
 
 describe('access control',() => {

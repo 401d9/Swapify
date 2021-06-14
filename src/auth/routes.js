@@ -2,17 +2,17 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const User = require ('./models/users-model.js');
+const User = require('./models/users-model.js');
 const basicAuth = require('./middleware/basic.js');
-const bearerAuth=require('./middleware/bearer.js');
-const Dashboard=require('./models/dashboard-model.js');
+const bearerAuth = require('./middleware/bearer.js');
+const Dashboard = require('./models/dashboard-model.js');
 
-router.get('/',(req,res)=>{
+router.get('/', (req, res) => {
   res.render('pages/home');
 });
 
 
-router.get('/signup',(req,res)=>{
+router.get('/signup', (req, res) => {
   res.render('pages/register');
 });
 
@@ -20,6 +20,8 @@ router.post('/signup', async (req, res, next) => {
   try {
     let user = new User(req.body);
     const userRecord = await user.save();
+    let average = (array) => array.reduce((a, b) => a + b) / array.length;
+    userRecord.rate = Math.round(average(userRecord.rate) * 10) / 10
     const output = {
       user: userRecord,
       token: userRecord.token,
@@ -27,13 +29,13 @@ router.post('/signup', async (req, res, next) => {
 
     res.status(201).json(output);
     // res.status(201).redirect('/profile');
-    
+
   } catch (e) {
     next(e.message);
   }
 });
 
-router.get('/signin',(req,res)=>{
+router.get('/signin', (req, res) => {
   res.render('pages/signin');
 });
 
@@ -41,11 +43,12 @@ router.post('/signin', basicAuth, (req, res, next) => {
   const user = {
     user: req.user,
     token: req.user.token,
+
   };
   res.status(200).json(user);
   // res.status(200).redirect('/profile');
 });
-router.get('/profile',(req,res)=>{
+router.get('/profile', (req, res) => {
   res.render('pages/profile');
 });
 
@@ -57,7 +60,7 @@ router.get('/users', bearerAuth, async (req, res, next) => {
 
   //one user
   // await res.status(200).json({user : req.user.username}); 
-     
+
 });
 
 router.get('/addToDashboard', async (req, res, next) => {
@@ -65,7 +68,7 @@ router.get('/addToDashboard', async (req, res, next) => {
     let dashboard = new Dashboard(req.body);
     const dashboardRecord = await dashboard.save();
     res.status(201).json(dashboardRecord);
-    
+
   } catch (e) {
     next(e.message);
   }
