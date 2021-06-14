@@ -30,7 +30,7 @@ $('#singInForm').submit(function (e) {
 });
 
 
-const authorizeUrl = 'https://www.facebook.com/v10.0/dialog/oauth';
+const authorizeUrl = 'https://www.facebook.com/v10.0/dialog/oauth?';
 const options = {
    //'https://fb-outh-by-nour.herokuapp.com/facebookOauth'
   client_id: '855648615091740',
