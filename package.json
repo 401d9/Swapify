@@ -1,6 +1,7 @@
 {
   "name": "swapo",
   "version": "1.0.0",
+  "engines": { "node": "12.16.1", "npm": "6.14.4" },
   "description": "<img src=\"./assets/logo.PNG\" style=\"height:50px; float:left\"> <h1 >&nbsp;&nbsp;&nbsp;Swapo</h1>",
   "main": "index.js",
   "scripts": {
