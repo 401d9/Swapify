@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Swapo</title>
+		<script></script>
+	</head>
+	<body>
+		<section>
+			<%let exp = ['Electrical','Teaching', 'Drawing']  %>
+			<%let idx = Math.floor(Math.random() * 3)  %>
+			<h3><%= exp[idx] %> </h3>
+			<h5>From: Randy Ebert</h5>
+			<h5>PostId: <%= (Math.random() * 10000000000000000)  %> </h5>
+			<h5>Date = <%= new Date().toLocaleString('en-GB', { timeZone: 'UTC' }) %> </h5>
+			<p>Lorem ipsum dolor sit amet 
+				consectetur adipisicing elit. 
+				Deleniti molestiae aspernatur 
+				odit, dignissimos blanditiis harum
+				nobis saepe excepturi fuga perferendis 
+				mollitia, voluptatem nisi ipsa. 
+				Non numquam quas doloremque cumque omnis!</p>
+
+			<button id="showHide">Click here to contact</button>
+		
+		<form id="formContact" action="/private" method="get">
+			<div class="form-control">
+				<!-- <label for="username">Username</label> -->
+				<input
+					type="hidden"
+					name="id"
+					id="id"
+					value="<%= data[0] %>"
+					placeholder="Enter username..."
+					required
+				/>
+			</div>
+			<div class="form-control">
+				<label for="username">To contact prove that you are human! type your name..</label>
+				<input
+					type="text"
+					name="askerId"
+					id="askerId"
+					value="<%= data[0] %>"
+					placeholder="Enter username..."
+					required
+				/>
+			</div>
+			<div class="form-control">
+				<!-- <label for="room">Password</label> -->
+				<input
+					type="hidden"
+					name="room"
+					id="room"
+					value="<%= data[1] %>"
+					placeholder="Enter Password..."
+					required
+				/>
+			</div>
+			<button type="submit" class="btn">Chat now ?🤔 click here ✉️ </button>
+		</form>
+		</div>
+	</section>
+	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+	<script src="/js/hideShowbtn.js"></script>
+	</body>
+</html>
