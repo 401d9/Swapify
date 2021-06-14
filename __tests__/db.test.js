@@ -16,6 +16,7 @@ let users = {
 
   x:{
     username:'Mr.X',
+    rate: [4,5,2,3],
     password:'pass',
     service:'Electrical',
     experience:'15 years',
@@ -28,6 +29,7 @@ let users = {
   },
   y:{
     username:'Mr.Y',
+    rate: [2,2,4,3],
     password:'pass',
     service:'Teaching',
     experience:'1.5 years',
@@ -56,35 +58,170 @@ let dashboard = [
 ];
 
 
+describe('\=========================== " HAPPY PATH :) " ===========================/', ()=>{
 
-describe('DB',() => {
+  describe('DB',() => {
  
-  describe('user X',() => {
-    it('should successfully create a new user in DB and return his/her data', async () => {
-      const res = await mockRequest.post('/signup').send(users.x);
-      const userObject = res.body;
-
-      expect(res.status).toBe(201);
-      expect(userObject.user.username).toBe(users.x.username);
-      expect(userObject.user.service).toBe(users.x.service);
-      expect(userObject.user.experience).toBe(users.x.experience);
-      expect(userObject.user.descriptionOfUser).toBe(users.x.descriptionOfUser);
+    describe('user X',() => {
+      it('should successfully create a new user in DB and return his/her data', async () => {
+        const res = await mockRequest.post('/signup').send(users.x);
+        const userObject = res.body;
+  
+        expect(res.status).toBe(201);
+        expect(userObject.user.username).toBe(users.x.username);
+        expect(userObject.user.rate).toEqual([3.5]);
+        expect(userObject.user.service).toBe(users.x.service);
+        expect(userObject.user.experience).toBe(users.x.experience);
+        expect(userObject.user.descriptionOfUser).toBe(users.x.descriptionOfUser);
+      });
     });
-  });
-  describe('user Y',() => {
-    it('should successfully create a new user in DB and return his/her data', async () => {
-      const res = await mockRequest.post('/signup').send(users.y);
-      const userObject = res.body;
+    describe('user Y',() => {
+      it('should successfully create a new user in DB and return his/her data', async () => {
+        const res = await mockRequest.post('/signup').send(users.y);
+        const userObject = res.body;
+      
+        expect(res.status).toBe(201);
+        expect(userObject.user.username).toBe(users.y.username);
+        expect(userObject.user.rate).toEqual([2.8]);
+        expect(userObject.user.service).toBe(users.y.service);
+        expect(userObject.user.experience).toBe(users.y.experience);
+        expect(userObject.user.descriptionOfUser).toBe(users.y.descriptionOfUser);
+      });
+    });
+    describe('all users',() => {
+      it('should successfully return all users', async () => {
+        const req= {};
+        const res={
+          status: jest.fn(()=>{
+            return res;
+          }),
+          send: jest.fn(()=>{
+            return res;
+          }),
+        };
+        const user ={
+          username:'Mr.X',
+        };
+        const token = jwt.sign(user,process.env.SECRET);
+        req.headers={
+          authorization:`Bearer ${token}`,
+        };
+        const bearerResponse = await mockRequest
+          .get('/users')
+          .set('Authorization', `Bearer ${token}`);
+  
+        const userObject2 = bearerResponse.body;
+        
+        expect(bearerResponse.status).toBe(200);
+        expect(userObject2.length).toBe(2);
+      });
+    });
+    describe('Messages',() => {
+      it('should successfully return the messages', async () => {
+        const res = await mockRequest.post('/signin').auth(users.x.username,users.x.password);
+        const userObject = res.body;
+          
+        expect(res.status).toBe(200);
+        expect(userObject.user.messages.length).toBe(3);
+        expect(userObject.user.messages[0].text).toBe(users.x.messages[0].text);
+      });});
+    describe('notifications',() => {
+      it('should successfully return the notifications', async () => {
+        const res = await mockRequest.post('/signin').auth(users.y.username,users.y.password);
+        const userObject = res.body;
+            
+        expect(res.status).toBe(200);
+        expect(userObject.user.notifications.length).toBe(1);
+        expect(userObject.user.notifications[0].link).toBe(users.y.notifications[0].link);
+      });});
+  
+    describe('Add to the Dashboard',() => {
+      it('should successfully Add To the dashboard', async () => {
+        const res = await mockRequest.get('/addToDashboard').send(dashboard[0]);
+        const userObject = res.body;
+        
+        expect(res.status).toBe(201);
+        expect(userObject.serviceNeeded).toBe(dashboard[0].serviceNeeded);
+        expect(userObject.username).toBe(dashboard[0].username);
+        expect(userObject.name).toBe(dashboard[0].name);
+        expect(userObject.text).toBe(dashboard[0].text);
+      });});
     
-      expect(res.status).toBe(201);
-      expect(userObject.user.username).toBe(users.y.username);
-      expect(userObject.user.service).toBe(users.y.service);
-      expect(userObject.user.experience).toBe(users.y.experience);
-      expect(userObject.user.descriptionOfUser).toBe(users.y.descriptionOfUser);
+    describe('Add multi post to the Dashboard',() => {
+      dashboard.forEach((elm)=>{
+        it('should successfully add to the dashboard', async () => {
+          const res = await mockRequest.get('/addToDashboard').send(elm);
+          const userObject = res.body;
+    
+          expect(res.status).toBe(201);
+          expect(userObject.serviceNeeded).toBe(elm.serviceNeeded);
+          expect(userObject.username).toBe(elm.username);
+          expect(userObject.name).toBe(elm.name);
+          expect(userObject.text).toBe(elm.text);
+        });
+      });
     });
+    
+    describe('dashboard',() => {
+      it('should successfully return the dashboard', async () => {
+        const res = await mockRequest.get('/dashboard');
+        const userObject = res.body;
+    
+        expect(res.status).toBe(200);
+        expect(userObject.length).toBe(3);
+      });});
   });
-  describe('all users',() => {
-    it('should successfully return all users', async () => {
+})
+
+
+
+
+
+describe('\=========================== " EDGE CASES :( " ===========================/', ()=>{
+
+  let users2 = {
+
+    x:{
+      username:'Mr.X',
+      password:'pass',
+      service:'Electrical',
+      experience:'15 years',
+      descriptionOfUser:'Worked in X company',
+    },
+    y:{
+      password:'pass',
+      service:'Teaching',
+      experience:'1.5 years',
+      descriptionOfUser:'Worked in Y schools',
+      role:'admin',
+    },
+    z:{
+      username:'Mr.Z',
+      password:'',
+      service:'Teaching',
+      experience:'1.5 years',
+      descriptionOfUser:'Worked in Y schools',
+      role:'admin',
+    },
+  };
+  
+    it('should not return user data when the username is already used', async () => {
+      const res = await mockRequest.post('/signup').send(users2.x);
+      expect(res.status).toBe(500);
+    });
+
+    it('should not return user data when the user failed to signup ( No username )', async () => {
+      const res = await mockRequest.post('/signup').send(users2.y);
+      expect(res.status).toBe(500);
+    });
+
+    it('should not return user data when the user failed to signup ( No password )', async () => {
+      const res = await mockRequest.post('/signup').send(users2.y);
+      expect(res.status).toBe(500);
+    });
+
+
+    it(' "forbidden" should not return all users in incorrect token  ', async () => {
       const req= {};
       const res={
         status: jest.fn(()=>{
@@ -103,66 +240,12 @@ describe('DB',() => {
       };
       const bearerResponse = await mockRequest
         .get('/users')
-        .set('Authorization', `Bearer ${token}`);
+        .set('Authorization', `Bearer XX${token}XX`);
 
       const userObject2 = bearerResponse.body;
       
-      expect(bearerResponse.status).toBe(200);
-      expect(userObject2.length).toBe(2);
+      expect(bearerResponse.status).toBe(403);
+      expect(userObject2.length).toBeUndefined;
     });
-  });
-  describe('Messages',() => {
-    it('should successfully return the messages', async () => {
-      const res = await mockRequest.post('/signin').auth(users.x.username,users.x.password);
-      const userObject = res.body;
-        
-      expect(res.status).toBe(200);
-      expect(userObject.user.messages.length).toBe(3);
-      expect(userObject.user.messages[0].text).toBe(users.x.messages[0].text);
-    });});
-  describe('notifications',() => {
-    it('should successfully return the notifications', async () => {
-      const res = await mockRequest.post('/signin').auth(users.y.username,users.y.password);
-      const userObject = res.body;
-          
-      expect(res.status).toBe(200);
-      expect(userObject.user.notifications.length).toBe(1);
-      expect(userObject.user.notifications[0].link).toBe(users.y.notifications[0].link);
-    });});
 
-  describe('Add to the Dashboard',() => {
-    it('should successfully Add To the dashboard', async () => {
-      const res = await mockRequest.get('/addToDashboard').send(dashboard[0]);
-      const userObject = res.body;
-      
-      expect(res.status).toBe(201);
-      expect(userObject.serviceNeeded).toBe(dashboard[0].serviceNeeded);
-      expect(userObject.username).toBe(dashboard[0].username);
-      expect(userObject.name).toBe(dashboard[0].name);
-      expect(userObject.text).toBe(dashboard[0].text);
-    });});
-  
-  describe('Add multi post to the Dashboard',() => {
-    dashboard.forEach((elm)=>{
-      it('should successfully add to the dashboard', async () => {
-        const res = await mockRequest.get('/addToDashboard').send(elm);
-        const userObject = res.body;
-  
-        expect(res.status).toBe(201);
-        expect(userObject.serviceNeeded).toBe(elm.serviceNeeded);
-        expect(userObject.username).toBe(elm.username);
-        expect(userObject.name).toBe(elm.name);
-        expect(userObject.text).toBe(elm.text);
-      });
-    });
-  });
-  
-  describe('dashboard',() => {
-    it('should successfully return the dashboard', async () => {
-      const res = await mockRequest.get('/dashboard');
-      const userObject = res.body;
-  
-      expect(res.status).toBe(200);
-      expect(userObject.length).toBe(3);
-    });});
-});
+})

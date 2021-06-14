@@ -44,7 +44,7 @@ app.use(passport.session());
 
 // Routes
 // app.use();
-// app.use(googleAuth); 
+app.use(googleAuth);
 app.use('/',router);
 
 //facebook
