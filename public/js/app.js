@@ -22,7 +22,7 @@ $('#singInForm').submit(function (e) {
   });
   fetch(req).then(async response => {
     let userObject = await response.json();
-    console.log(userObject);
+    // console.log(userObject);
     let token = userObject.token;
     document.cookie = `token=${token}`;
 
@@ -45,7 +45,7 @@ const queryString = Object.keys(options)
     // client_id=f99cc8c339968475c82d&scope=readEncodeColon&state=some_randome_string
   }).join('&');
 
-console.log('query string: ', queryString);
+// console.log('query string: ', queryString);
 
 const authUrl = `${authorizeUrl}?${queryString}`;
 const a = document.getElementById('oauth');
