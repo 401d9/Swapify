@@ -29,18 +29,24 @@ const notificationsSchema = mongoose.Schema({
   link:{type:String},
 });
 
+// const profileSchema= mongoose.Schema({
+  
+// });
+
 const users = new mongoose.Schema({
   // email:{type:String,required:true,unique:true},
-  name:{type:String},
   username: { type: String, required: true, unique: true },
   rate:{type:[Number]},
   password: { type: String, required: true },
+  name:{type:String},
   service:{type:String},
   experience:{type:String},
   descriptionOfUser:{type:String},
   messages:[messagesSchema],
   dashboard:[dashboardSchema],
   notifications:[notificationsSchema],
+
+  // userProfile:[profileSchema],
   role:{type:String,required:true,default:'user',enum:['user','admin']},
   //add role here 
 
