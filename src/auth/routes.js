@@ -20,16 +20,20 @@ router.post('/signup', async (req, res, next) => {
   try {
     let user = new User(req.body);
     const userRecord = await user.save();
-    let average = (array) => array.reduce((a, b) => a + b) / array.length;
-    userRecord.rate = Math.round(average(userRecord.rate) * 10) / 10
     const output = {
       user: userRecord,
       token: userRecord.token,
     };
-
-    res.status(201).json(output);
-    // res.status(201).redirect('/profile');
-
+    if (output.user.rate.length === 0) {
+      res.status(201).json(output);
+      // res.status(201).redirect('/profile');
+    }
+    if (output.user.rate.length > 0) {
+      let average = (array) => array.reduce((a, b) => a + b) / array.length;
+      userRecord.rate = Math.round(average(userRecord.rate) * 10) / 10;
+      res.status(201).json(output);
+      // res.status(201).redirect('/profile');
+    }
   } catch (e) {
     next(e.message);
   }

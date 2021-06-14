@@ -13,18 +13,13 @@ const base64 = require('base-64');
 let user={
   username: 'ashar',
   password: '1111',
-  rate: [5,2,3,5,4]
 };
-//3.8
 describe('authentication test', () => {
 
   it('should create a new User on POST /signup', async () => {
     const response = await request.post('/signup').send(user);
     expect(response.status).toEqual(201);
-    // console.log(response.body);
-    expect(response.body.user.username).toEqual('ashar');
-    expect(response.body.user.rate).toEqual([3.8]);
-    
+    expect(response.body.user.username).toEqual('ashar');    
   });
 
   it('should Sign In test',async ()=>{

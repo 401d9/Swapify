@@ -32,8 +32,8 @@ const notificationsSchema = mongoose.Schema({
 const users = new mongoose.Schema({
   // email:{type:String,required:true,unique:true},
   name:{type:String},
-  rate: [Number],
   username: { type: String, required: true, unique: true },
+  rate:{type:[Number]},
   password: { type: String, required: true },
   service:{type:String},
   experience:{type:String},
