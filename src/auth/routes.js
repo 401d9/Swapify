@@ -8,18 +8,13 @@ const bearerAuth=require('./middleware/bearer.js');
 const Dashboard=require('./models/dashboard-model.js');
 const acl =require('../auth/middleware/acl.js')
 
-
-
-
 router.get('/', (req, res) => {
   res.render('pages/home');
 });
 
-
 router.get('/signup', (req, res) => {
   res.render('pages/register');
 });
-
 router.post('/signup', async (req, res, next) => {
   try {
     let user = new User(req.body);
@@ -46,7 +41,6 @@ router.post('/signup', async (req, res, next) => {
 router.get('/signin', (req, res) => {
   res.render('pages/signin');
 });
-
 router.post('/signin', basicAuth, (req, res, next) => {
   const user = {
     user: req.user,
@@ -83,10 +77,6 @@ router.get('/dashboard', async (req, res, next) => {
   const dashboard = await Dashboard.find({});
   res.status(200).json(dashboard);
 
-});
-
-router.get('/secret', bearerAuth, async (req, res, next) => {
-  res.status(200).send('Welcome to the secret area');
 });
 
 

@@ -171,7 +171,7 @@ describe('\=========================== " HAPPY PATH :) " =======================
         expect(userObject.length).toBe(3);
       });});
   });
-})
+});
 
 
 
@@ -205,47 +205,47 @@ describe('\=========================== " EDGE CASES :( " =======================
     },
   };
   
-    it('should not return user data when the username is already used', async () => {
-      const res = await mockRequest.post('/signup').send(users2.x);
-      expect(res.status).toBe(500);
-    });
+  it('should not return user data when the username is already used', async () => {
+    const res = await mockRequest.post('/signup').send(users2.x);
+    expect(res.status).toBe(500);
+  });
 
-    it('should not return user data when the user failed to signup ( No username )', async () => {
-      const res = await mockRequest.post('/signup').send(users2.y);
-      expect(res.status).toBe(500);
-    });
+  it('should not return user data when the user failed to signup ( No username )', async () => {
+    const res = await mockRequest.post('/signup').send(users2.y);
+    expect(res.status).toBe(500);
+  });
 
-    it('should not return user data when the user failed to signup ( No password )', async () => {
-      const res = await mockRequest.post('/signup').send(users2.y);
-      expect(res.status).toBe(500);
-    });
+  it('should not return user data when the user failed to signup ( No password )', async () => {
+    const res = await mockRequest.post('/signup').send(users2.y);
+    expect(res.status).toBe(500);
+  });
 
 
-    it(' "forbidden" should not return all users in incorrect token  ', async () => {
-      const req= {};
-      const res={
-        status: jest.fn(()=>{
-          return res;
-        }),
-        send: jest.fn(()=>{
-          return res;
-        }),
-      };
-      const user ={
-        username:'Mr.X',
-      };
-      const token = jwt.sign(user,process.env.SECRET);
-      req.headers={
-        authorization:`Bearer ${token}`,
-      };
-      const bearerResponse = await mockRequest
-        .get('/users')
-        .set('Authorization', `Bearer XX${token}XX`);
+  it(' "forbidden" should not return all users in incorrect token  ', async () => {
+    const req= {};
+    const res={
+      status: jest.fn(()=>{
+        return res;
+      }),
+      send: jest.fn(()=>{
+        return res;
+      }),
+    };
+    const user ={
+      username:'Mr.X',
+    };
+    const token = jwt.sign(user,process.env.SECRET);
+    req.headers={
+      authorization:`Bearer ${token}`,
+    };
+    const bearerResponse = await mockRequest
+      .get('/users')
+      .set('Authorization', `Bearer XX${token}XX`);
 
-      const userObject2 = bearerResponse.body;
+    const userObject2 = bearerResponse.body;
       
-      expect(bearerResponse.status).toBe(403);
-      expect(userObject2.length).toBeUndefined;
-    });
+    expect(bearerResponse.status).toBe(403);
+    expect(userObject2.length).toBeUndefined;
+  });
 
-})
+});
