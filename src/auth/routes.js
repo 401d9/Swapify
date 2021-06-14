@@ -4,8 +4,12 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const User = require('./models/users-model.js');
 const basicAuth = require('./middleware/basic.js');
-const bearerAuth = require('./middleware/bearer.js');
-const Dashboard = require('./models/dashboard-model.js');
+const bearerAuth=require('./middleware/bearer.js');
+const Dashboard=require('./models/dashboard-model.js');
+const acl =require('../auth/middleware/acl.js')
+
+
+
 
 router.get('/', (req, res) => {
   res.render('pages/home');
@@ -52,9 +56,6 @@ router.post('/signin', basicAuth, (req, res, next) => {
   res.status(200).json(user);
   // res.status(200).redirect('/profile');
 });
-router.get('/profile', (req, res) => {
-  res.render('pages/profile');
-});
 
 router.get('/users', bearerAuth, async (req, res, next) => {
   //all users
@@ -87,6 +88,25 @@ router.get('/dashboard', async (req, res, next) => {
 router.get('/secret', bearerAuth, async (req, res, next) => {
   res.status(200).send('Welcome to the secret area');
 });
+
+
+//******************************************************** */
+
+
+router.get('/profile/:id', bearerAuth,async(req, res) => {
+  console.log(req.params);
+
+  let id = req.params.id
+  let getOneEntry = await User.findById(id);
+  res.status(200).json(getOneEntry);
+});
+
+router.put('/profile/:id',bearerAuth,acl('update'), async(req, res) => {
+  let id = req.params.id;
+  let updateEntry = await User.findByIdAndUpdate(id, req.body,{new:true});
+  res.status(200).json(updateEntry);
+});
+
 
 
 module.exports = router;
