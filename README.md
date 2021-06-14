@@ -1,4 +1,4 @@
-<img src="./assets/logo.PNG" style="height:50px; float:left"> <h1 >&nbsp;&nbsp;&nbsp;Swapo</h1>
+<img src="./public/assets/logo.PNG" style="height:50px; float:left"> <h1 >&nbsp;&nbsp;&nbsp;Swapo</h1>
 
 <br>
 
