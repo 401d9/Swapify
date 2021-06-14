@@ -47,10 +47,10 @@ google.get('/good', isLoggedIn, async (req, res) => {
     experience: 'X experience X',
     service: 'X service X',
     name: 'X name X',
-    email: 'X email X'
+    email: 'X email X',
   };
   try {
-    const test = UserModel.findOne(obj.username)
+    const test = UserModel.findOne(obj.username);
     if (test) {
       res.send(req.user);
     }
@@ -62,7 +62,7 @@ google.get('/good', isLoggedIn, async (req, res) => {
     }
 
   }
-  catch (e) { console.log(e) }
+  catch (e) { console.log(e);}
 });
 
 google.get('/google',

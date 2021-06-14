@@ -67,7 +67,7 @@ app.get('/chat', function(request, response) {
 app.get('/private', function(request, response) {
 
 
-  response.render('pages/chat');
+  response.render('chat');
 
 });
 

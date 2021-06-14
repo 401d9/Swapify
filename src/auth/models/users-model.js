@@ -48,7 +48,7 @@ const users = new mongoose.Schema({
 
   // userProfile:[profileSchema],
   role:{type:String,required:true,default:'user',enum:['user','admin']},
-  //add role here 
+  // 
 
 });
 
