@@ -29,6 +29,8 @@ const notFound = require('./error-handlers/404.js');
 const googleAuth = require('./auth/middleware/google-auth');
 const oauth = require('./auth/middleware/facebook-Oauth');
 const formatMessage = require('./models/messages');
+const bearerAuth=require('./auth/middleware/bearer.js');
+const User = require('./auth/models/users-model.js');
 const {userJoin, getCurrentUser, userLeave, getRoomUsers } = require('./models/users');
 
 /*
@@ -67,7 +69,7 @@ app.use(googleAuth);
 app.use('/',router);
 
 app.get('/chat', function(request, response) {
-
+  // console.log(request.user);
   let id = faker.name.findName();
   let room = faker.datatype.number();
 
@@ -75,7 +77,18 @@ app.get('/chat', function(request, response) {
 
 });
 
-app.get('/private', function(request, response) {
+app.get('/private',  async(req, res) => {
+//http://localhost:4222/private?id=Vincent+Harvey&askerId=Vincent+Harvey&room=42832
+  let IID = '60c8cc6b6239a00bb3d9241a';
+  let url = new URL('http://localhost:4222/private?');
+  url.searchParams.append('id', req.query.id);
+  url.searchParams.append('askerId', req.query.askerId);
+  url.searchParams.append('room', req.query.room);
+  await User.findByIdAndUpdate(IID,{$push: {notifications: {link:url}}},{new:true});
+  res.render('pages/chat');
+
+});
+app.post('/private',  function(request, response) {
 
   response.render('pages/chat');
 

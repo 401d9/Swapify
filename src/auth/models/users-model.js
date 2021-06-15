@@ -4,15 +4,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const SECRET = process.env.SECRET;
 
-//user schema 
-/*{ username: 'Mustafa', text: 'Hi shady!', time: '11:28 pm' }
-{
-  username: 'Mustafa',
-  text: 'I want to ask about your service ?',
-  time: '11:28 pm'
-}
-{ username: 'Shady', text: 'Yes!', time: '11:28 pm' }
-*/
+
 const messagesSchema = new mongoose.Schema({
   username:{type:String},
   text:{type:String},
@@ -47,7 +39,7 @@ const users = new mongoose.Schema({
   notifications:[notificationsSchema],
 
   // userProfile:[profileSchema],
-  role:{type:String,required:true,default:'user',enum:['user','admin']},
+  role:{type:String,required:true,default:'user',enum:['user','admin','moderator']},
   // 
 
 });
@@ -56,6 +48,7 @@ users.virtual('capabilities').get(function(){
   let acl = {
     user:['read','create','update','delete'],
     admin:['read','create','update','delete'],
+    moderator:['read'],
   };
   return acl[this.role];
 });
@@ -82,8 +75,6 @@ users.pre('save', async function () {
   }
 });
 
-
-
 //BEARER AUTH 
 //Nour complete here ^^
 users.statics.authenticateWithToken = async function (token) {
@@ -91,7 +82,6 @@ users.statics.authenticateWithToken = async function (token) {
     const parsedToken = jwt.verify(token, process.env.SECRET);
     const user = this.findOne({ username: parsedToken.username });
     if (user) { return user; }
-    throw new Error('User Not Found');
   } catch (e) {
     throw new Error(e.message);
   }
