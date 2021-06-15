@@ -6,7 +6,7 @@ const User = require('./models/users-model.js');
 const basicAuth = require('./middleware/basic.js');
 const bearerAuth=require('./middleware/bearer.js');
 const Dashboard=require('./models/dashboard-model.js');
-const acl =require('../auth/middleware/acl.js')
+const acl =require('../auth/middleware/acl.js');
 
 router.get('/', (req, res) => {
   res.render('pages/home');
@@ -85,7 +85,7 @@ router.get('/dashboard', async (req, res, next) => {
 
 router.get('/profile', bearerAuth,async(req, res) => {
   
-    await res.status(200).json({user : req.user}); 
+  await res.status(200).json({user : req.user}); 
 
   
 });
