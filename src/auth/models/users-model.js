@@ -89,7 +89,6 @@ users.statics.authenticateWithToken = async function (token) {
     const parsedToken = jwt.verify(token, process.env.SECRET);
     const user = this.findOne({ username: parsedToken.username });
     if (user) { return user; }
-    throw new Error('User Not Found');
   } catch (e) {
     throw new Error(e.message);
   }
