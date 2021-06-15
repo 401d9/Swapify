@@ -82,8 +82,6 @@ users.pre('save', async function () {
   }
 });
 
-
-
 //BEARER AUTH 
 //Nour complete here ^^
 users.statics.authenticateWithToken = async function (token) {
