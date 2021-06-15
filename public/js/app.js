@@ -30,19 +30,17 @@ $('#singInForm').submit(function (e) {
 });
 
 
-const authorizeUrl = 'https://www.facebook.com/v10.0/dialog/oauth?';
+const authorizeUrl = 'https://www.facebook.com/v10.0/dialog/oauth';
 const options = {
-   //'https://fb-outh-by-nour.herokuapp.com/facebookOauth'
   client_id: '855648615091740',
-  // redirect_uri: 'http://localhost:3000/oauth',
-  redirect_uri:'http://localhost:4222/oauth' ,
+  redirect_uri:'https://swapo.herokuapp.com/oauth' ,
   state: 'some_random_string',
 };
 
 const queryString = Object.keys(options)
   .map((key) => {
     return `${key}=${encodeURIComponent(options[key])}`;
-    // client_id=f99cc8c339968475c82d&scope=readEncodeColon&state=some_randome_string
+  // client_id=f99cc8c339968475c82d&scope=readEncodeColon&state=some_randome_string
   }).join('&');
 
 // console.log('query string: ', queryString);

@@ -64,6 +64,7 @@ users.statics.authenticateBasic = async function (username, password) {
 users.virtual('token').get(function () {
   let tokenObject = {
     username: this.username,
+    id:this.id,
   };
   return jwt.sign(tokenObject, process.env.SECRET);
 });
@@ -73,8 +74,6 @@ users.pre('save', async function () {
     this.password = await bcrypt.hash(this.password, 10);
   }
 });
-
-
 
 //BEARER AUTH 
 //Nour complete here ^^
