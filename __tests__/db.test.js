@@ -163,10 +163,10 @@ describe('\=========================== " HAPPY PATH :) " =======================
         const userObject = bearerResponse.body;
 
         expect(bearerResponse.status).toBe(201);
-        expect(userObject.serviceNeeded).toBe(dashboard[0].serviceNeeded);
-        expect(userObject.username).toBe(dashboard[0].username);
-        expect(userObject.name).toBe(dashboard[0].name);
-        expect(userObject.text).toBe(dashboard[0].text);
+        expect(userObject[0].serviceNeeded).toBe(dashboard[0].serviceNeeded);
+        expect(userObject[0].username).toBe(dashboard[0].username);
+        expect(userObject[0].name).toBe(dashboard[0].name);
+        expect(userObject[0].text).toBe(dashboard[0].text);
       });
     });
 
@@ -197,10 +197,10 @@ describe('\=========================== " HAPPY PATH :) " =======================
           const userObject = bearerResponse.body;
 
           expect(bearerResponse.status).toBe(201);
-          expect(userObject.serviceNeeded).toBe(elm.serviceNeeded);
-          expect(userObject.username).toBe(elm.username);
-          expect(userObject.name).toBe(elm.name);
-          expect(userObject.text).toBe(elm.text);
+          expect(userObject[0].serviceNeeded).toBe(elm.serviceNeeded);
+          expect(userObject[0].username).toBe(elm.username);
+          expect(userObject[0].name).toBe(elm.name);
+          expect(userObject[0].text).toBe(elm.text);
         });
       });
     });
