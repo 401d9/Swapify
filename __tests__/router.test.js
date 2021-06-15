@@ -82,3 +82,25 @@ describe('Profile routes',() => {
   });
 
 });
+
+describe('API server', () => {
+  it('should get 404 status wrong route', async () => {
+    const response = await mockRequest.get('/jhu');
+    expect(response.status).toBe(404);
+  });
+  it('should get 200 status for  / route', async () => {
+    const response = await mockRequest.get('/');
+    expect(response.status).toBe(200);
+  });
+  it('should get 200 status for /signup route', async () => {
+    const response = await mockRequest.get('/signup');
+    expect(response.status).toBe(200);
+  });
+  it('should get 200 status for /signin route', async () => {
+    const response = await mockRequest.get('/signin');
+    expect(response.status).toBe(200);
+  });
+
+});
+
+
