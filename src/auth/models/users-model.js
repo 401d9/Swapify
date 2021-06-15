@@ -71,6 +71,7 @@ users.statics.authenticateBasic = async function (username, password) {
 users.virtual('token').get(function () {
   let tokenObject = {
     username: this.username,
+    id:this.id,
   };
   return jwt.sign(tokenObject, process.env.SECRET);
 });
