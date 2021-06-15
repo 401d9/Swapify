@@ -102,7 +102,7 @@
 
 - ### UML
 
-  - ![UML](./assets/UML.png)
+  - ![UML](./public/assets/UML.png)
 
 **[⬆ Back to Index](#index)**
 
