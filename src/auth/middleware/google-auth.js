@@ -43,11 +43,11 @@ google.get('/good', isLoggedIn, async (req, res) => {
   let obj = {
     username: username,
     password: password,
-    descriptionOfUser: 'X user description X',
-    experience: 'X experience X',
-    service: 'X service X',
-    name: 'X name X',
-    email: 'X email X',
+    // descriptionOfUser: 'X user description X',
+    // experience: 'X experience X',
+    // service: 'X service X',
+    // name: 'X name X',
+    // email: 'X email X',
   };
   try {
     const test = UserModel.findOne(obj.username);
