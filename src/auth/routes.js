@@ -6,7 +6,7 @@ const User = require('./models/users-model.js');
 const basicAuth = require('./middleware/basic.js');
 const bearerAuth=require('./middleware/bearer.js');
 const Dashboard=require('./models/dashboard-model.js');
-const acl =require('../auth/middleware/acl.js')
+const acl =require('../auth/middleware/acl.js');
 
 router.get('/', (req, res) => {
   res.render('pages/home');
@@ -86,7 +86,7 @@ router.get('/dashboard', async (req, res, next) => {
 router.get('/profile/:id', bearerAuth,async(req, res) => {
   console.log(req.params);
 
-  let id = req.params.id
+  let id = req.params.id;
   let getOneEntry = await User.findById(id);
   res.status(200).json(getOneEntry);
 });
@@ -95,6 +95,12 @@ router.put('/profile/:id',bearerAuth,acl('update'), async(req, res) => {
   let id = req.params.id;
   let updateEntry = await User.findByIdAndUpdate(id, req.body,{new:true});
   res.status(200).json(updateEntry);
+});
+
+router.delete('/delete',bearerAuth, async (req,res) => {
+  let id = req.body.id;
+  await Dashboard.findByIdAndDelete(id);
+  res.status(204);
 });
 
 
