@@ -103,4 +103,14 @@ describe('API server', () => {
 
 });
 
+describe('Route /chat', () => {
+  it('pass', async () => {
+
+    const res = await mockRequest.get('/chat');
+
+    expect(res.status).toBe(200);
+    
+  });
+
+});
 
