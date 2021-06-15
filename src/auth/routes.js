@@ -85,7 +85,7 @@ router.get('/dashboard', async (req, res, next) => {
 
 router.get('/profile', bearerAuth,async(req, res) => {
   
-    await res.status(200).json({user : req.user}); 
+  await res.status(200).json({user : req.user}); 
 
 });
 
