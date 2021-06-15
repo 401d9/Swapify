@@ -104,8 +104,9 @@ app.get('/oauth', oauth, (req, res) => {
 
 app.get('/logout', (req, res) => {
 
-  req.session = null;
-  req.logOut();
+  res.clearCookie('tuto-session.sig'); 
+  res.clearCookie('token'); 
+  res.clearCookie('tuto-session');
   res.redirect('/');
 
 });
