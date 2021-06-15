@@ -162,6 +162,8 @@ describe('\=========================== " HAPPY PATH :) " =======================
 
         const userObject = bearerResponse.body;
 
+        console.log('aaaaaaa ',userObject);
+
         expect(bearerResponse.status).toBe(201);
         expect(userObject.serviceNeeded).toBe(dashboard[0].serviceNeeded);
         expect(userObject.username).toBe(dashboard[0].username);
@@ -192,8 +194,8 @@ describe('\=========================== " HAPPY PATH :) " =======================
       dashboard.forEach((elm) => {
         it('should successfully add to the dashboard', async () => {
           const bearerResponse = await mockRequest
-          .post('/posts')
-          .set('Authorization', `Bearer ${token}`).send(elm);
+            .post('/posts')
+            .set('Authorization', `Bearer ${token}`).send(elm);
           const userObject = bearerResponse.body;
 
           expect(bearerResponse.status).toBe(201);
@@ -206,15 +208,15 @@ describe('\=========================== " HAPPY PATH :) " =======================
     });
 
     // console.log(dashboard)
-      it('should successfully return the dashboard', async () => {
+    it('should successfully return the dashboard', async () => {
 
-        const res = await mockRequest.get('/dashboard');
-        const userObject = res.body;
+      const res = await mockRequest.get('/dashboard');
+      const userObject = res.body;
         
-        // console.log(userObject)
-        expect(res.status).toBe(200);
-        expect(userObject.length).toBe(3);
-      });
+      // console.log(userObject)
+      expect(res.status).toBe(200);
+      expect(userObject.length).toBe(3);
+    });
   });
 });
 
@@ -266,30 +268,30 @@ describe('\=========================== " EDGE CASES :( " =======================
   });
 
 
-    it(' "forbidden" should not return all users in incorrect token  ', async () => {
-      const req = {};
-      const res = {
-        status: jest.fn(() => {
-          return res;
-        }),
-        send: jest.fn(() => {
-          return res;
-        }),
-      };
-      const user = {
-        username: 'Mr.X',
-      };
-      const token = jwt.sign(user, process.env.SECRET);
-      req.headers = {
-        authorization: `Bearer ${token}`,
-      };
-      const bearerResponse = await mockRequest
-        .get('/users')
-        .set('Authorization', `Bearer XX${token}XX`);
+  it(' "forbidden" should not return all users in incorrect token  ', async () => {
+    const req = {};
+    const res = {
+      status: jest.fn(() => {
+        return res;
+      }),
+      send: jest.fn(() => {
+        return res;
+      }),
+    };
+    const user = {
+      username: 'Mr.X',
+    };
+    const token = jwt.sign(user, process.env.SECRET);
+    req.headers = {
+      authorization: `Bearer ${token}`,
+    };
+    const bearerResponse = await mockRequest
+      .get('/users')
+      .set('Authorization', `Bearer XX${token}XX`);
   
-      const userObject2 = bearerResponse.body;
+    const userObject2 = bearerResponse.body;
   
-      expect(bearerResponse.status).toBe(403);
-      expect(userObject2.length).toBeUndefined;
-    });
+    expect(bearerResponse.status).toBe(403);
+    expect(userObject2.length).toBeUndefined;
+  });
 });

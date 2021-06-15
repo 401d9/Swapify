@@ -106,6 +106,5 @@ router.delete('/delete',bearerAuth, async (req,res) => {
 });
 
 
-
 module.exports = router;
 
