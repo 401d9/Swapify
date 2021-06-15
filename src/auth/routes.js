@@ -62,7 +62,7 @@ router.get('/users', bearerAuth, async (req, res, next) => {
 
 });
 
-router.get('/addToDashboard', async (req, res, next) => {
+router.post('/posts', bearerAuth,async (req, res, next) => {
   try {
     let dashboard = new Dashboard(req.body);
     const dashboardRecord = await dashboard.save();
