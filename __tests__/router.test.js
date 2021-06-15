@@ -15,12 +15,11 @@ describe('Profile routes',() => {
     password:'pass',
     service:'Electrical',
     experience:'15 years',
-    descriptionOfUser:'Worked in X company',  
+    descriptionOfUser:'Worked in X company', 
   };
   it('should successfully create a new user in DB and return his/her data', async () => {
     const res = await mockRequest.post('/signup').send(user);
     const userObject = res.body;
-    id =userObject.user._id;
     expect(res.status).toBe(201);
     expect(userObject.user.username).toBe(user.username);
     expect(userObject.user.service).toBe(user.service);
@@ -44,9 +43,10 @@ describe('Profile routes',() => {
       authorization:`Bearer ${token}`,
     };
     const bearerResponse = await mockRequest
-      .get(`/profile/${id}`)
+      .get(`/profile`)
       .set('Authorization', `Bearer ${token}`);
-    const userObject2 = bearerResponse.body;
+    const userObject2 = bearerResponse.body.user;
+    console.log('lllllllllll',bearerResponse )
     expect(bearerResponse.status).toBe(200);
     expect(userObject2.service).toBe(user.service);
   });
@@ -74,7 +74,7 @@ describe('Profile routes',() => {
       authorization:`Bearer ${token}`,
     };
     const bearerResponse = await mockRequest
-      .put(`/profile/${id}`).send(updatedUser )
+      .put(`/profile`).send(updatedUser )
       .set('Authorization', `Bearer ${token}`);
     const userObject2 = bearerResponse.body;
     expect(bearerResponse.status).toBe(200);
