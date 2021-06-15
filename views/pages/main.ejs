@@ -61,6 +61,11 @@
 			</div>
 			<button type="submit" class="btn">Chat now ?🤔 click here ✉️ </button>
 		</form>
+
+		<form action="/delete?_method=delete" method="POST">
+		<input type="hidden" name="id" value="<%= data[0] %>">
+		<button>Delete Post</button>
+		</form>
 		</div>
 	</section>
 	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
