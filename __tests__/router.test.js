@@ -28,7 +28,6 @@ describe('Profile routes',() => {
     expect(userObject.user.descriptionOfUser).toBe(user.descriptionOfUser);
   });
   it('should successfully return get by ID a specific user ', async () => {
-      
     const req= {};
     const res={
       status: jest.fn(()=>{
@@ -38,15 +37,14 @@ describe('Profile routes',() => {
         return res;
       }),
     };
-  
     const token = jwt.sign(user,process.env.SECRET);
     req.headers={
       authorization:`Bearer ${token}`,
     };
     const bearerResponse = await mockRequest
-      .get(`/profile/${id}`)
+      .get(`/profile`)
       .set('Authorization', `Bearer ${token}`);
-    const userObject2 = bearerResponse.body;
+    const userObject2 = bearerResponse.body.user;
     expect(bearerResponse.status).toBe(200);
     expect(userObject2.service).toBe(user.service);
   });
@@ -74,7 +72,7 @@ describe('Profile routes',() => {
       authorization:`Bearer ${token}`,
     };
     const bearerResponse = await mockRequest
-      .put(`/profile/${id}`).send(updatedUser )
+      .put(`/profile`).send(updatedUser )
       .set('Authorization', `Bearer ${token}`);
     const userObject2 = bearerResponse.body;
     expect(bearerResponse.status).toBe(200);
