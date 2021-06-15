@@ -63,10 +63,14 @@ router.get('/users', bearerAuth, async (req, res, next) => {
 });
 
 router.post('/posts', bearerAuth,async (req, res, next) => {
+  console.log('id from posts', req.user.id);
   try {
     let dashboard = new Dashboard(req.body);
     const dashboardRecord = await dashboard.save();
-    res.status(201).json(dashboardRecord);
+    let id = req.user.id;
+    
+    const userDashboard = await User.findByIdAndUpdate(id,{$push:{dashboard: {serviceNeeded:req.body.serviceNeeded,date:req.body.date,text:req.body.text}}},{new:true});
+    res.status(201).json([dashboardRecord,userDashboard]);
 
   } catch (e) {
     next(e.message);
@@ -97,8 +101,8 @@ router.put('/profile',bearerAuth,acl('update'), async(req, res) => {
 
 router.delete('/delete',bearerAuth, async (req,res) => {
   let id = req.body.id;
-  await Dashboard.findByIdAndDelete(id);
-  res.status(204);
+  let deletedObject = await Dashboard.findByIdAndDelete(id);
+  res.status(204).json(`the record of this ${id} is deleted successfully `);
 });
 
 
