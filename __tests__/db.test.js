@@ -205,15 +205,16 @@ describe('\=========================== " HAPPY PATH :) " =======================
       });
     });
 
-    describe('dashboard', () => {
+    // console.log(dashboard)
       it('should successfully return the dashboard', async () => {
+
         const res = await mockRequest.get('/dashboard');
         const userObject = res.body;
-
+        
+        // console.log(userObject)
         expect(res.status).toBe(200);
         expect(userObject.length).toBe(3);
       });
-    });
   });
 });
 
@@ -265,31 +266,30 @@ describe('\=========================== " EDGE CASES :( " =======================
   });
 
 
-  it(' "forbidden" should not return all users in incorrect token  ', async () => {
-    const req = {};
-    const res = {
-      status: jest.fn(() => {
-        return res;
-      }),
-      send: jest.fn(() => {
-        return res;
-      }),
-    };
-    const user = {
-      username: 'Mr.X',
-    };
-    const token = jwt.sign(user, process.env.SECRET);
-    req.headers = {
-      authorization: `Bearer ${token}`,
-    };
-    const bearerResponse = await mockRequest
-      .get('/users')
-      .set('Authorization', `Bearer XX${token}XX`);
-
-    const userObject2 = bearerResponse.body;
-
-    expect(bearerResponse.status).toBe(403);
-    expect(userObject2.length).toBeUndefined;
-  });
-
+    it(' "forbidden" should not return all users in incorrect token  ', async () => {
+      const req = {};
+      const res = {
+        status: jest.fn(() => {
+          return res;
+        }),
+        send: jest.fn(() => {
+          return res;
+        }),
+      };
+      const user = {
+        username: 'Mr.X',
+      };
+      const token = jwt.sign(user, process.env.SECRET);
+      req.headers = {
+        authorization: `Bearer ${token}`,
+      };
+      const bearerResponse = await mockRequest
+        .get('/users')
+        .set('Authorization', `Bearer XX${token}XX`);
+  
+      const userObject2 = bearerResponse.body;
+  
+      expect(bearerResponse.status).toBe(403);
+      expect(userObject2.length).toBeUndefined;
+    });
 });
