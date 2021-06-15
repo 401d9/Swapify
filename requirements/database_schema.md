@@ -1,3 +1,3 @@
 # Database Schema
 
-![DB](../assets/db.png)
+![DB](../public/assets/db.png)
