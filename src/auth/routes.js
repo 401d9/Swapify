@@ -83,16 +83,15 @@ router.get('/dashboard', async (req, res, next) => {
 //******************************************************** */
 
 
-router.get('/profile/:id', bearerAuth,async(req, res) => {
-  console.log(req.params);
+router.get('/profile', bearerAuth,async(req, res) => {
+  
+    await res.status(200).json({user : req.user}); 
 
-  let id = req.params.id
-  let getOneEntry = await User.findById(id);
-  res.status(200).json(getOneEntry);
+  
 });
 
-router.put('/profile/:id',bearerAuth,acl('update'), async(req, res) => {
-  let id = req.params.id;
+router.put('/profile',bearerAuth,acl('update'), async(req, res) => {
+  let id =req.user.id;
   let updateEntry = await User.findByIdAndUpdate(id, req.body,{new:true});
   res.status(200).json(updateEntry);
 });
