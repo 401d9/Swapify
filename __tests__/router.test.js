@@ -30,7 +30,6 @@ describe('Profile routes',() => {
     expect(userObject.user.descriptionOfUser).toBe(user.descriptionOfUser);
   });
   it('should successfully return get by ID a specific user ', async () => {
-      
     const req= {};
     const res={
       status: jest.fn(()=>{
@@ -40,7 +39,6 @@ describe('Profile routes',() => {
         return res;
       }),
     };
-  
     const token = jwt.sign(user,process.env.SECRET);
     req.headers={
       authorization:`Bearer ${token}`,
