@@ -70,7 +70,7 @@ describe('\=========================== " EDGE CASES :( " =======================
       .set(
         'Authorization', 'basic ' + new Buffer.from(`${user.username}:${111}`, 'utf8').toString('base64'),
       );
-    expect(response.status).toEqual(500);
+    expect(response.status).toEqual(403);
   });
 
   it('Test wrong username', async () => {
@@ -79,7 +79,16 @@ describe('\=========================== " EDGE CASES :( " =======================
       .set(
         'Authorization', 'basic ' + new Buffer.from(`ashar1: ${user.password}`, 'utf8').toString('base64'),
       );
-    expect(response.status).toEqual(500);
+    expect(response.status).toEqual(403);
+  });
+
+  it('!req.headers.authorization', async () => {
+    const response = await request
+      .post('/signin')
+      /* .set(
+        'Authorization', 'basic ' + new Buffer.from(`ashar1: ${user.password}`, 'utf8').toString('base64'),
+      ); */
+    expect(response.status).toEqual(403);
   });
 })
 

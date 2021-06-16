@@ -98,7 +98,20 @@ describe('\=========================== " HAPPY PATH :) " =======================
         .set('Authorization', `Bearer ${token}`);
       expect(bearerResponse.status).toBe(200);
     });
-  
+
+    it('should pass', async () => {
+      const user = {
+        username: 'admin',
+      };
+      const token = jwt.sign(user, process.env.SECRET);
+      req.headers = {
+        authorization: `Bearer ${token}`,
+      };
+      const bearerResponse = await mockRequest
+        .get('/dashboard')
+        .set('Authorization', `Bearer ${token}`);
+      expect(bearerResponse.status).toBe(200);
+    });
     
   
   });

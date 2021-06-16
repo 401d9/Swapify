@@ -20,7 +20,7 @@ describe('\=========================== " HAPPY PATH :) " =======================
   describe('access control', () => {
 
     describe('user', () => {
-      it('should successfuly create a new user', async () => {
+      it('should successfully create a new user', async () => {
         const res = await mockRequest.post('/signup').send(roles.user);
         const userObject = res.body;
   
@@ -30,7 +30,7 @@ describe('\=========================== " HAPPY PATH :) " =======================
         expect(userObject.user.username).toEqual(roles.user.username);
         expect(userObject.user.role).toBe('user');
       });
-      it('should successfuly create a new user with role admin', async () => {
+      it('should successfully create a new user with role admin', async () => {
         const res = await mockRequest.post('/signup').send(roles.admin);
         const userObject = res.body;
   
@@ -41,7 +41,7 @@ describe('\=========================== " HAPPY PATH :) " =======================
         expect(userObject.user.role).toBe('admin');
       });
   
-      it('should successfuly signin with basic auth', async () => {
+      it('should successfully signin with basic auth', async () => {
         const res = await mockRequest.post('/signin').auth(roles.user.username, roles.user.password);
   
         const userObject = res.body;
@@ -79,7 +79,7 @@ describe('\=========================== " EDGE CASES :( " =======================
         .auth('admin', 'xyz');
       const userObject = response.body;
 
-      expect(response.status).toBe(500);
+      expect(response.status).toBe(403);
       expect(userObject.user).not.toBeDefined();
       expect(userObject.token).not.toBeDefined();
 
@@ -91,7 +91,7 @@ describe('\=========================== " EDGE CASES :( " =======================
         .auth('nobody', 'xyz');
       const userObject = response.body;
 
-      expect(response.status).toBe(500);
+      expect(response.status).toBe(403);
       expect(userObject.user).not.toBeDefined();
       expect(userObject.token).not.toBeDefined();
 

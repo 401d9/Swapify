@@ -79,20 +79,17 @@ app.get('/chat', function(request, response) {
 
 app.get('/private',  async(req, res) => {
 //http://localhost:4222/private?id=Vincent+Harvey&askerId=Vincent+Harvey&room=42832
-  let IID = '60c8cc6b6239a00bb3d9241a';
+  let IID = '60c9bc16662588001502f353';
   let url = new URL('http://localhost:4222/private?');
   url.searchParams.append('id', req.query.id);
   url.searchParams.append('askerId', req.query.askerId);
   url.searchParams.append('room', req.query.room);
   await User.findByIdAndUpdate(IID,{$push: {notifications: {link:url}}},{new:true});
+  await User.findByIdAndUpdate(IID,{$push: {messages: {username:req.query.id, text:url, time:req.query.room}}},{new:true});
   res.render('pages/chat');
 
 });
-app.post('/private',  function(request, response) {
 
-  response.render('pages/chat');
-
-});
 
 
 //facebook
@@ -104,8 +101,9 @@ app.get('/oauth', oauth, (req, res) => {
 
 app.get('/logout', (req, res) => {
 
-  req.session = null;
-  req.logOut();
+  res.clearCookie('tuto-session.sig'); 
+  res.clearCookie('token'); 
+  res.clearCookie('tuto-session');
   res.redirect('/');
 
 });
