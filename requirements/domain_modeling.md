@@ -1,3 +1,3 @@
 # Domain modeling : 
 
-![domain-modeling](../assets/Domainmodeling.PNG)
+![domain-modeling](../public/assets/Domainmodeling.PNG)
