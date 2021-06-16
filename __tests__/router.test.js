@@ -24,10 +24,7 @@ describe('Profile routes',() => {
     const res = await mockRequest.post('/signup').send(user);
     const userObject = res.body;
     expect(res.status).toBe(201);
-    expect(userObject.user.username).toBe(user.username);
-    expect(userObject.user.service).toBe(user.service);
-    expect(userObject.user.experience).toBe(user.experience);
-    expect(userObject.user.descriptionOfUser).toBe(user.descriptionOfUser);
+    expect(userObject.username).toBe(user.username);
   });
   it('should successfully return get by ID a specific user ', async () => {
     const req= {};
@@ -48,7 +45,6 @@ describe('Profile routes',() => {
       .set('Authorization', `Bearer ${token}`);
     const userObject2 = bearerResponse.body.user;
     expect(bearerResponse.status).toBe(200);
-    expect(userObject2.service).toBe(user.service);
   });
   it('should successfully update data profile by specific ID', async () => {
       
@@ -255,7 +251,7 @@ describe('Route /notifications', () => {
     const res = await mockRequest.post('/signup').send(user);
     const userObject = res.body;
     expect(res.status).toBe(201);
-    id = userObject.user._id;
+    //id = userObject.user._id;
   });
 
   it('pass happy case', async () => {
