@@ -19,6 +19,7 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const _ = require('underscore');
 const faker = require('faker');
+const moment = require('moment');
 
 /*
 >---------------------------------------- Esoteric Resources -----------------------------------------<
@@ -79,13 +80,19 @@ app.get('/chat', function(request, response) {
 
 app.get('/private',  async(req, res) => {
 //http://localhost:4222/private?id=Vincent+Harvey&askerId=Vincent+Harvey&room=42832
-  let IID = '60c9bc16662588001502f353';
+  let IID;
+  if(req.query.askerId === '60ca1a8e6c1d4911ed7a8773'){
+  IID = '60ca1a8e6c1d4911ed7a8773'
+  } else {
+  IID = '60ca0f035f8964046ba5141f'; //'60c9bc16662588001502f353';
+  }
+  
   let url = new URL('http://localhost:4222/private?');
   url.searchParams.append('id', req.query.id);
   url.searchParams.append('askerId', req.query.askerId);
   url.searchParams.append('room', req.query.room);
-  await User.findByIdAndUpdate(IID,{$push: {notifications: {link:url}}},{new:true});
-  await User.findByIdAndUpdate(IID,{$push: {messages: {username:req.query.id, text:url, time:req.query.room}}},{new:true});
+  await User.findByIdAndUpdate(IID,{$push: {notifications: {username:req.query.id,  time: moment().format('h:mm a'), link:url}}},{new:true});
+  await User.findByIdAndUpdate(IID,{$push: {messages: {username:req.query.id, text:url, time: moment().format('h:mm a')}}},{new:true});
   res.render('pages/chat');
 
 });
@@ -95,7 +102,7 @@ app.get('/private',  async(req, res) => {
 //facebook
 app.get('/oauth', oauth, (req, res) => {
 
-  res.json({ token: req.token, user: req.user });
+  res.status(200).json({ token: req.token, user: req.user });
 
 });
 

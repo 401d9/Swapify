@@ -106,5 +106,20 @@ router.delete('/delete',bearerAuth, async (req,res) => {
 });
 
 
+router.get('/notifications',bearerAuth, async (req,res) => {
+  let id = req.user.id;
+  let object = await User.findById(id);
+  let notificationsUsers = object.notifications.map((elm)=>{
+    if(elm.username){
+      return elm.username;
+    } else {
+      return 'John'
+    }
+  })
+  res.status(200).json({numberOfNotifications: object.notifications.length, notificationsFrom: notificationsUsers, notifications:object.notifications});
+});
+
+
+
 module.exports = router;
 
