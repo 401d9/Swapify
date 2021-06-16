@@ -100,18 +100,26 @@ app.get('/private',  async(req, res) => {
 
 
 //facebook
-app.get('/oauth', oauth, (req, res) => {
+app.get('/oauth', oauth, (req, res,next) => {
+  try {
+    res.status(200).json({ token: req.token, user: req.user });
 
-  res.status(200).json({ token: req.token, user: req.user });
+  } catch (error) {
+    next(error.messages);
+  }
 
 });
 
 app.get('/logout', (req, res) => {
-
-  res.clearCookie('tuto-session.sig'); 
-  res.clearCookie('token'); 
-  res.clearCookie('tuto-session');
-  res.redirect('/');
+  try {
+    res.clearCookie('tuto-session.sig'); 
+    res.clearCookie('token'); 
+    res.clearCookie('tuto-session');
+    res.redirect('/');
+  } catch (error) {
+    console.log(error.message);
+  }
+ 
 
 });
 
