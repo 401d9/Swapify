@@ -85,6 +85,7 @@ app.get('/private',  async(req, res) => {
   url.searchParams.append('askerId', req.query.askerId);
   url.searchParams.append('room', req.query.room);
   await User.findByIdAndUpdate(IID,{$push: {notifications: {link:url}}},{new:true});
+  await User.findByIdAndUpdate(IID,{$push: {messages: {username:req.query.id, text:url, time:req.query.room}}},{new:true});
   res.render('pages/chat');
 
 });
