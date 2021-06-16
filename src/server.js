@@ -88,11 +88,7 @@ app.get('/private',  async(req, res) => {
   res.render('pages/chat');
 
 });
-app.post('/private',  function(request, response) {
 
-  response.render('pages/chat');
-
-});
 
 
 //facebook
@@ -103,7 +99,7 @@ app.get('/oauth', oauth, (req, res) => {
 });
 
 app.get('/logout', (req, res) => {
-
+  console.log('req.session', req.session);
   req.session = null;
   req.logOut();
   res.redirect('/');
