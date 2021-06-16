@@ -17,6 +17,7 @@ router.get('/signup', (req, res) => {
   res.render('pages/register');
 });
 router.post('/signup', async (req, res, next) => {
+  let obj;
   try {
     let user = new User(req.body);
     const userRecord = await user.save();
@@ -24,12 +25,11 @@ router.post('/signup', async (req, res, next) => {
       user: userRecord,
       token: userRecord.token,
     };
-
+    obj={
+      username:output.user.username,
+      state:'You Successfully Signed Up'
+    }
     if (output.user.rate.length === 0) {
-      let obj={
-        username:output.user.username,
-        state:'You Successfully Signed Up'
-      }
       res.status(201).json(obj);
       // res.status(201).redirect('/profile');
     }

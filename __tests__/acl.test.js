@@ -25,20 +25,14 @@ describe('\=========================== " HAPPY PATH :) " =======================
         const userObject = res.body;
   
         expect(res.status).toBe(201);
-        expect(userObject.token).toBeDefined();
-        expect(userObject.user._id).toBeDefined();
-        expect(userObject.user.username).toEqual(roles.user.username);
-        expect(userObject.user.role).toBe('user');
+        expect(userObject.username).toEqual(roles.user.username);
       });
       it('should successfully create a new user with role admin', async () => {
         const res = await mockRequest.post('/signup').send(roles.admin);
         const userObject = res.body;
   
         expect(res.status).toBe(201);
-        expect(userObject.token).toBeDefined();
-        expect(userObject.user._id).toBeDefined();
-        expect(userObject.user.username).toEqual(roles.admin.username);
-        expect(userObject.user.role).toBe('admin');
+        expect(userObject.username).toEqual(roles.admin.username);
       });
   
       it('should successfully signin with basic auth', async () => {
@@ -48,8 +42,7 @@ describe('\=========================== " HAPPY PATH :) " =======================
   
         expect(res.status).toBe(200);
         expect(userObject.token).toBeDefined();
-        expect(userObject.user._id).toBeDefined();
-        expect(userObject.user.username).toEqual(roles.user.username);
+        expect(userObject.username).toEqual(roles.user.username);
       });
     });
   

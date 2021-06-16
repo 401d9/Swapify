@@ -22,7 +22,7 @@ describe('\=========================== " HAPPY PATH :) " =======================
     it('should create a new User on POST /signup', async () => {
       const response = await request.post('/signup').send(user);
       expect(response.status).toEqual(201);
-      expect(response.body.user.username).toEqual('ashar');
+      expect(response.body.username).toEqual('ashar');
     });
   
     it('should Sign In test', async () => {
@@ -30,8 +30,7 @@ describe('\=========================== " HAPPY PATH :) " =======================
       const user = base64.encode('ashar:1111');
       const response1 = await request.post('/signin').set('Authorization', `Basic ${user}`);
       expect(response1.status).toEqual(200);
-      expect(response1.body.user.username).toEqual('ashar');
-      expect(response1.body.user.password).not.toEqual('1111');
+      expect(response1.body.username).toEqual('ashar');
     });
   
   });
