@@ -88,11 +88,7 @@ app.get('/private',  async(req, res) => {
   res.render('pages/chat');
 
 });
-app.post('/private',  function(request, response) {
 
-  response.render('pages/chat');
-
-});
 
 
 //facebook
