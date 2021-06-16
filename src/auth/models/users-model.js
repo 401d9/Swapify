@@ -18,7 +18,9 @@ const dashboardSchema = mongoose.Schema({
 });
 
 const notificationsSchema = mongoose.Schema({
-  link:{type:String},
+  username:{type:String},
+  time:{type:String},
+  link:{type:String}
 });
 
 // const profileSchema= mongoose.Schema({
