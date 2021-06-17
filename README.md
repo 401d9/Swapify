@@ -1,4 +1,4 @@
-<img src="./assets/logo.PNG" style="height:50px; float:left"> <h1 >&nbsp;&nbsp;&nbsp;Swapo</h1>
+<img src="./public/assets/logo.PNG" style="height:50px; float:left"> <h1 >&nbsp;&nbsp;&nbsp;Swapo</h1>
 
 <br>
 
@@ -15,14 +15,15 @@
   - [Versions](#Versions)
   - [Deployed app](#Deployed-app)
   - [install and run](#install-and-run)
+  - [Tests](#Tests)
 - [Authors Links](#Authors-Links)
 - [Other links](#Other-links)
-    - [Team Agreement](./requirements/team_agreement.md)
-    - [Wireframes](./requirements/wireframes.md)
-    - [User Stories](./requirements/user_stories.md)
-    - [Software Requirements](./requirements/software_requirements.md)
-    - [Domain Modeling](./requirements/domain_modeling.md)
-    - [Database](./requirements/database_schema.md)
+  - [Team Agreement](./requirements/team_agreement.md)
+  - [Wireframes](./requirements/wireframes.md)
+  - [User Stories](./requirements/user_stories.md)
+  - [Software Requirements](./requirements/software_requirements.md)
+  - [Domain Modeling](./requirements/domain_modeling.md)
+  - [Database](./requirements/database_schema.md)
 
 ---
 
@@ -61,11 +62,11 @@
 
 - ### Authors
 
-  - Shady Khaled
-  - Mostafa Jdeitawi
-  - As-har Abuhelweh  
-  - Nour Abu Elenein
-  - Wafa'a Ankoush
+  - Shady Khaled 🤓
+  - Mostafa Jdeitawi 🤡
+  - As-har Abuhelweh ⭐
+  - Nour Abu Elenein 🎇
+  - Wafa'a Ankoush ✨
 
   **[⬆ Back to Index](#index)**
 
@@ -73,28 +74,46 @@
 
 - ### Tools
 
-  - This app build basically by:
+  - This app build by 🧰:
     - socket.io
     - Node.js
     - HTML5
     - CSS
-- this app done with help of
+    - jQuery
+    - Java Script
+- This app done with help of
   - dependencies
     - dotenv
+    - base-64
+    - bcrypt
+    - body-parser
+    - cookie-session
+    - cors
+    - ejs
     - express
     - socket.io
     - faker
-  - devDependencies
-    - nodemon
-  - framework
-    - Node.js
+    - http
+    - jest
+    - jsonwebtoken
+    - method-override
+    - moment
+    - mongoose
+    - morgan
+    - multer
+    - passport
+    - passport-google-oauth20
+    - socket.io-client
+    - underscore
+    - @code-fellows/supergoose
+
   **[⬆ Back to Index](#index)**
 
 ---
 
 - ### Github
 
-  - For the repo ***Swapo*** clicks => [here](https://github.com/401d9/Swapo).
+  - For the repo 🐱 ***Swapo*** clicks => [here](https://github.com/401d9/Swapo).
 
 **[⬆ Back to Index](#index)**
 
@@ -102,7 +121,9 @@
 
 - ### UML
 
-  - ![UML](./assets/UML.png)
+  <!-- - ![UML](./public/assets/UML.png) -->
+  ### [Click here to show board ](https://miro.com/welcomeonboard/a3hYWkpnRkR4YXFmVzVJcDJZUDRoNVdSNFg5b0dIYVlDRXFybTI5OWdNakczcWFDSDhBdnpkamZZQlVpVkx5bnwzMDc0NDU3MzU3MzU4Mjc2Mjk1)
+  - ![UML](./public/assets/UML2.jpg)
 
 **[⬆ Back to Index](#index)**
 
@@ -110,11 +131,17 @@
 
 - ### Versions
 
+  - V 1.0.0:
+    - The first lunch 🔥 of the app.
+
 **[⬆ Back to Index](#index)**
 
 ---
 
 - ### Deployed app
+
+  - It had been deployed on Heroku 😎
+    - Visit it [here](https://swapo.herokuapp.com/);
 
 **[⬆ Back to Index](#index)**
 
@@ -123,8 +150,24 @@
 - ### install and run
 
   - clone the repo locally
-  - run `npm install`
-  - run `nodemon` or `npm start`
+  - run 🏃 `npm install`
+  - run 🏃 `nodemon` or `npm start`
+
+**[⬆ Back to Index](#index)**
+
+---
+
+- ### Tests
+
+  - The app had been tested using jest.
+  - To run the tests `npm test`.
+  - Tests 🧪 :
+    - ACL test ➡️ [here](./__tests__/acl.test.js).
+    - Basic Auth test ➡️ [here](./__tests__/basic-auth.test.js).
+    - Bearer Auth test ➡️ [here](./__tests__/bearer-auth.test.js).
+    - Data Base test ➡️ [here](./__tests__/db.test.js).
+    - Routes test ➡️ [here](./__tests__/router.test.js).
+    - Socket test ➡️ [here](./__tests__/socket.test.js).
 
 **[⬆ Back to Index](#index)**
 

@@ -4,6 +4,7 @@ $('#singInForm').submit(function (e) {
   e.preventDefault();
   let url = '/signin';
   let username = $('#username1').val();
+
   let password = $('#password1').val();
 
   let header = new Headers();
@@ -21,7 +22,7 @@ $('#singInForm').submit(function (e) {
   });
   fetch(req).then(async response => {
     let userObject = await response.json();
-    console.log(userObject);
+    // console.log(userObject);
     let token = userObject.token;
     document.cookie = `token=${token}`;
 
@@ -31,20 +32,18 @@ $('#singInForm').submit(function (e) {
 
 const authorizeUrl = 'https://www.facebook.com/v10.0/dialog/oauth';
 const options = {
-  //'https://fb-outh-by-nour.herokuapp.com/facebookOauth'
-  client_id: '1243292162768569',
-  // redirect_uri: 'http://localhost:3000/oauth',
-  redirect_uri:'http://localhost:4222/oauth' ,
+  client_id: '855648615091740',
+  redirect_uri:'https://swapo.herokuapp.com/oauth' ,
   state: 'some_random_string',
 };
 
 const queryString = Object.keys(options)
   .map((key) => {
     return `${key}=${encodeURIComponent(options[key])}`;
-    // client_id=f99cc8c339968475c82d&scope=readEncodeColon&state=some_randome_string
+  // client_id=f99cc8c339968475c82d&scope=readEncodeColon&state=some_randome_string
   }).join('&');
 
-console.log('query string: ', queryString);
+// console.log('query string: ', queryString);
 
 const authUrl = `${authorizeUrl}?${queryString}`;
 const a = document.getElementById('oauth');

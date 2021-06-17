@@ -8,12 +8,9 @@ const REDIRECT_URI = process.env.REDIRECT_URI;
 const tokenServerUrl = 'https://graph.facebook.com/v10.0/oauth/access_token';
 const remoteAPI = 'https://graph.facebook.com/me';
 const User = require('../models/users-model');
-// const jwt = require('jsonwebtoken');
-// let SECRET = process.env.SECRET;
-
 
 module.exports = async (req, res, next) => {
-  // 2. Users are redirected back to your site by facebook
+  // 2. Users are redirected back to your site by Facebook
   try {
     console.log('<-------:query object:----->', req.query);
     const code = req.query.code;
@@ -43,7 +40,6 @@ async function exchangeCodeForToken(code) {
     client_id: CLIENT_ID,
     client_secret: CLIENT_SECRET,
     redirect_uri: REDIRECT_URI,
-    // grant_type: 'authorization_code',
   });
   const accessToken = tokenResponse.body.access_token;
   return accessToken;
@@ -65,13 +61,6 @@ async function getUser(remoteUser) {
     password: 'this_should_be_empty',
   };
 
-  // const userObj = new User(userRecord);
-  // const userDoc =await  userObj.save();
-
-  // // const token = userDoc.token;
-  // let token = jwt.sign({username: userDoc.username}, SECRET);
-  // return [userRecord, token];
- 
   const username = userRecord.username;
   const user = await User.findOne({ username });
   if (user) {
@@ -90,17 +79,3 @@ async function getUser(remoteUser) {
     return output;
   }
 }
-
-
-// async function getUser(remoteUser) {
-//   const user = {
-//     username: remoteUser.login,
-//     password: 'xxxx',
-//   };
-
-//   const userObj = new User(user);
-//   const userDoc = userObj.save();
-
-//   const token = userDoc.token;
-//   return [user, token];
-// }

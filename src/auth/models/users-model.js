@@ -2,41 +2,55 @@
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const SECRET = process.env.SECRET;
 
-//user schema 
 
+const messagesSchema = new mongoose.Schema({
+  username:{type:String},
+  text:{type:String},
+  time:{type:String},
+});
+
+const dashboardSchema = mongoose.Schema({
+  serviceNeeded:{type:String},
+  date:{type:String},
+  text:{type:String},
+});
+
+const notificationsSchema = mongoose.Schema({
+  username:{type:String},
+  time:{type:String},
+  link:{type:String}
+});
+
+// const profileSchema= mongoose.Schema({
+  
+// });
 
 const users = new mongoose.Schema({
   // email:{type:String,required:true,unique:true},
-  name:{type:String},
   username: { type: String, required: true, unique: true },
+  rate:{type:[Number]},
   password: { type: String, required: true },
+  name:{type:String},
   service:{type:String},
   experience:{type:String},
   descriptionOfUser:{type:String},
   messages:[messagesSchema],
   dashboard:[dashboardSchema],
   notifications:[notificationsSchema],
-  role:{type:String,required:true,default:'user',enum:['user','admin']},
-  //add role here 
+
+  // userProfile:[profileSchema],
+  role:{type:String,required:true,default:'user',enum:['user','admin','moderator']},
+  // 
 
 });
 
-const messagesSchema = new mongoose.Schema({
-  message:{type:String},
-});
-
-const dashboardSchema = mongoose.Schema({
-  descriptionOfService:{type:String},
-});
-
-const notificationsSchema = mongoose.Schema({
-  link:{type:String},
-});
 users.virtual('capabilities').get(function(){
   let acl = {
     user:['read','create','update','delete'],
     admin:['read','create','update','delete'],
+    moderator:['read'],
   };
   return acl[this.role];
 });
@@ -52,6 +66,7 @@ users.statics.authenticateBasic = async function (username, password) {
 users.virtual('token').get(function () {
   let tokenObject = {
     username: this.username,
+    id:this.id,
   };
   return jwt.sign(tokenObject, process.env.SECRET);
 });
@@ -62,8 +77,6 @@ users.pre('save', async function () {
   }
 });
 
-
-
 //BEARER AUTH 
 //Nour complete here ^^
 users.statics.authenticateWithToken = async function (token) {
@@ -71,7 +84,6 @@ users.statics.authenticateWithToken = async function (token) {
     const parsedToken = jwt.verify(token, process.env.SECRET);
     const user = this.findOne({ username: parsedToken.username });
     if (user) { return user; }
-    throw new Error('User Not Found');
   } catch (e) {
     throw new Error(e.message);
   }
@@ -80,5 +92,3 @@ users.statics.authenticateWithToken = async function (token) {
 
 
 module.exports = mongoose.model('users', users);
-
-
