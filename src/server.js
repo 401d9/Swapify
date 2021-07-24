@@ -16,7 +16,7 @@ const methodOverride = require('method-override');
 const path = require('path');
 const app = express();
 const http = require('http').createServer(app);
-const io = require('socket.io')(http);
+//const io = require('socket.io')(http);
 const _ = require('underscore');
 const faker = require('faker');
 const moment = require('moment');
@@ -141,69 +141,54 @@ let allMessages = [];
 let usersArray = [];
 
 // Run when client connects
-io.on('connection', socket => {
-  socket.on('joinRoom', ({ id, room }) => {
-    //console.log('line79',id);
-    const user = userJoin(socket.id, id, room);
-    //console.log('119,allMessages.user.username', user.username);
-    //let userArrays = user.username;
-    //usersArray.push(userArrays);
-    //allMessages.userArrays = [];
-    socket.join(user.room);
-    // Welcome current user
-    socket.emit('message', formatMessage(botName, 'Welcome to Swapo!🔄 \n a new world of swapping services!😎'));
-    //if (allMessages.length>0){
-    if (allMessages.length>0){
-      allMessages.forEach((elm)=>{
-        console.log(elm);
-        //allMessages.userArrays.forEach((elm)=>{
-        socket.emit('message', elm);
-      });
-    }
-    // Broadcast when a user connects
-    socket.broadcast
-      .to(user.room)
-      .emit(
-        'message',
-        formatMessage(botName, `${user.username} is here!🥳`),
-      );
+const io = require("socket.io")(8900, {
+  cors: {
+    origin: "http://localhost:3000",
+  },
+});
 
-    // Send users and room info
-    io.to(user.room).emit('roomUsers', {
-      room: user.room,
-      users: getRoomUsers(user.room),
+let users = [];
+
+const addUser = (userId, socketId) => {
+  !users.some((user) => user.userId === userId) &&
+    users.push({ userId, socketId });
+};
+
+const removeUser = (socketId) => {
+  users = users.filter((user) => user.socketId !== socketId);
+};
+
+const getUser = (userId) => {
+  return users.find((user) => user.userId === userId);
+};
+
+io.on("connection", (socket) => {
+  //when ceonnect
+  console.log("a user connected.");
+
+  //take userId and socketId from user
+  socket.on("addUser", (userId) => {
+    addUser(userId, socket.id);
+    io.emit("getUsers", users);
+  });
+
+  //send and get message
+  socket.on("sendMessage", ({ senderId, receiverId, text }) => {
+    const user = getUser(receiverId);
+    io.to(user.socketId).emit("getMessage", {
+      senderId,
+      text,
     });
   });
 
-  // Listen for chatMessage
-  socket.on('chatMessage', msg => {
-    const user = getCurrentUser(socket.id);
-    //let userArrays = user.username;
-    allMessages.push(formatMessage(user.username, msg));
-    //allMessages.user.username = [];
-    //allMessages.userArrays.push(formatMessage(user.username, msg));
-    //console.log(allMessages.userArrays[0]);
-    io.to(user.room).emit('message', formatMessage(user.username, msg));
-  });
-
-  // Runs when client disconnects
-  socket.on('disconnect', () => {
-    const user = userLeave(socket.id);
-
-    if (user) {
-      io.to(user.room).emit(
-        'message',
-        formatMessage(botName, `${user.username} has left!😢`),
-      );
-
-      // Send users and room info
-      io.to(user.room).emit('roomUsers', {
-        room: user.room,
-        users: getRoomUsers(user.room),
-      });
-    }
+  //when disconnect
+  socket.on("disconnect", () => {
+    console.log("a user disconnected!");
+    removeUser(socket.id);
+    io.emit("getUsers", users);
   });
 });
+
 
 /*
 >---------------------------------------- Export module -----------------------------------------<
