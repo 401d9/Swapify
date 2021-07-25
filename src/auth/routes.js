@@ -244,7 +244,6 @@ router.post("/conversations", async (req, res) => {
   }
 });
 
-//get conv of a user
 
 router.get("/conversations/:userId", async (req, res) => {
   try {
