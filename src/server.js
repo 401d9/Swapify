@@ -33,6 +33,7 @@ const formatMessage = require('./models/messages');
 const bearerAuth=require('./auth/middleware/bearer.js');
 const User = require('./auth/models/users-model.js');
 const {userJoin, getCurrentUser, userLeave, getRoomUsers } = require('./models/users');
+const MessageSchema = require('./auth/models/Message.js');
 
 /*
 >---------------------------------------- Server config -----------------------------------------<
@@ -82,9 +83,9 @@ app.get('/private',  async(req, res) => {
 //http://localhost:4222/private?id=Vincent+Harvey&askerId=Vincent+Harvey&room=42832
   let IID;
   if(req.query.askerId === '60ca1a8e6c1d4911ed7a8773'){
-  IID = '60ca1a8e6c1d4911ed7a8773'
+    IID = '60ca1a8e6c1d4911ed7a8773';
   } else {
-  IID = '60ca5e6a3b503a00152d46e7';
+    IID = '60ca5e6a3b503a00152d46e7';
   }
   
   let url = new URL('http://localhost:4222/private?');
@@ -141,13 +142,14 @@ let allMessages = [];
 let usersArray = [];
 
 // Run when client connects
-const io = require("socket.io")(8900, {
+const io = require('socket.io')(8900, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: 'http://localhost:3000',
   },
 });
 
 let users = [];
+console.log('line 152',users);
 
 const addUser = (userId, socketId) => {
   !users.some((user) => user.userId === userId) &&
@@ -162,30 +164,43 @@ const getUser = (userId) => {
   return users.find((user) => user.userId === userId);
 };
 
-io.on("connection", (socket) => {
+io.on('connection', (socket) => {
   //when ceonnect
-  console.log("a user connected.");
+  console.log('a user connected.');
 
   //take userId and socketId from user
-  socket.on("addUser", (userId) => {
+  socket.on('addUser', (userId) => {
     addUser(userId, socket.id);
-    io.emit("getUsers", users);
+    io.emit('getUsers', users);
   });
 
   //send and get message
-  socket.on("sendMessage", ({ senderId, receiverId, text }) => {
+  socket.on('sendMessage', ({ senderId, receiverId, text, conversationId }) => {
     const user = getUser(receiverId);
-    io.to(user.socketId).emit("getMessage", {
-      senderId,
-      text,
-    });
+    console.log('line 180',user);
+    if(!user){
+      const saveNotification =  async () => {
+        const user =  await User.findById(receiverId);
+        console.log('user from 184 ', user);
+        const senderUser = await User.findById(senderId);
+        console.log('senderUser from 186 ', senderUser);
+        await user.updateOne({$push:{notifications:`you have a message from ${senderUser.username}`}});
+        console.log('hellloooo');
+      };
+      saveNotification();
+    } else {
+      io.to(user.socketId).emit('getMessage', {
+        senderId,
+        text,
+      });
+    }
   });
 
   //when disconnect
-  socket.on("disconnect", () => {
-    console.log("a user disconnected!");
+  socket.on('disconnect', () => {
+    console.log('a user disconnected!');
     removeUser(socket.id);
-    io.emit("getUsers", users);
+    io.emit('getUsers', users);
   });
 });
 
