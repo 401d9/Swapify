@@ -17,10 +17,13 @@ router.get('/signup', (req, res) => {
   res.render('pages/register');
 });
 router.post('/signup', async (req, res, next) => {
+  console.log('0',req.body);
   let obj;
   try {
     let user = new User(req.body);
+    console.log('1',user);
     const userRecord = await user.save();
+    console.log('2',userRecord);
     const output = {
       user: userRecord,
       token: userRecord.token,
@@ -40,6 +43,7 @@ router.post('/signup', async (req, res, next) => {
       // res.status(201).redirect('/profile');
     }
   } catch (e) {
+    console.log(e);
     next(e.message);
   }
 });
@@ -232,15 +236,32 @@ const Conversation = require("./models/Conversation");
 //new conv
 
 router.post("/conversations", async (req, res) => {
-  const newConversation = new Conversation({
-    members: [req.body.senderId, req.body.receiverId],
+  
+  const ifThere = await Conversation.find({
+    members: { $in: [req.body.senderId] },
   });
+  let data=[];
+   ifThere.forEach(obj=>{
+      obj.members.forEach(a=>{
+       data.includes(a) ? null:data.push(a);
+      })
+    }); 
 
-  try {
-    const savedConversation = await newConversation.save();
-    res.status(200).json(savedConversation);
-  } catch (err) {
-    res.status(500).json(err);
+  console.log('new' ,ifThere);
+  console.log('data.includes(req.body.receiverId)' ,data.includes(req.body.receiverId));
+  if(data.includes(req.body.receiverId)){
+    res.status(200).json('There is a chat');
+  }else{
+    const newConversation = new Conversation({
+      members: [req.body.senderId, req.body.receiverId],
+    });
+  
+    try {
+      const savedConversation = await newConversation.save();
+      res.status(200).json(savedConversation);
+    } catch (err) {
+      res.status(500).json(err);
+    }
   }
 });
 
