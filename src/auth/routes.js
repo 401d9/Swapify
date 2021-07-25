@@ -395,7 +395,7 @@ router.get('/users/:userId', async (req, res, next) => {
   
   try {
     const user = await User.findById(req.params.userId);
-    console.log('/users/:userId', user);
+    // console.log('/users/:userId', user);
     res.status(200).json(user);
   } catch (error) {
     next(error.message);
@@ -413,6 +413,23 @@ router.get('/user/profile/:username', async (req, res, next) => {
   }
 
 });
+
+// ************************************************************** //
+
+router.put('/notif', async (req, res, next) => {
+
+  const saveNotification =  async () => {
+    const user =  await User.findById(req.body.userId);
+    console.log(user.notifications);
+    let deletedNotif = user.notifications;
+    deletedNotif.splice(req.body.index);
+    await User.findByIdAndUpdate(req.body.userId,{$set:{notifications:deletedNotif}});
+  };
+  saveNotification();
+
+});
+
+
 
 
 module.exports = router;

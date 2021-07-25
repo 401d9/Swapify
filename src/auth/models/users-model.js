@@ -1,7 +1,7 @@
-"use strict";
-const mongoose = require("mongoose");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+'use strict';
+const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 const SECRET = process.env.SECRET;
 
 const messagesSchema = new mongoose.Schema({
@@ -16,11 +16,11 @@ const dashboardSchema = mongoose.Schema({
   text: { type: String },
 });
 
-const notificationsSchema = mongoose.Schema({
-  username: { type: String },
-  time: { type: String },
-  link: { type: String },
-});
+// const notificationsSchema = mongoose.Schema({
+//   username: { type: String },
+//   time: { type: String },
+//   link: { type: String },
+// });
 
 // const profileSchema= mongoose.Schema({
 
@@ -33,30 +33,33 @@ const users = new mongoose.Schema({
   password: { type: String, required: true },
   name: {
     type: String,
-    default: "",
+    default: '',
   },
   service: {
     type: String,
-    default: "",
+    default: '',
   },
   experience: {
     type: String,
-    default: "",
+    default: '',
   },
   descriptionOfUser: {
     type: String,
-    default: "",
+    default: '',
   },
   messages: [messagesSchema],
   dashboard: [dashboardSchema],
-  notifications: [notificationsSchema],
+  notifications:{
+    type:Array,
+    default:0,
+  },
   profilePicture: {
     type: String,
-    default: "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png",
+    default: 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png',
   },
   profileCover: {
     type: String,
-    default: "https://github.com/401d9/Swapo/blob/main/public/assets/logo.PNG?raw=true",
+    default: 'https://github.com/401d9/Swapo/blob/main/public/assets/logo.PNG?raw=true',
   },
   known: {
     type: Array,
@@ -64,24 +67,24 @@ const users = new mongoose.Schema({
   },
   email: {
     type: String,
-    default: "",
+    default: '',
   },
 
   // userProfile:[profileSchema],
   role: {
     type: String,
     required: true,
-    default: "user",
-    enum: ["user", "admin", "moderator"],
+    default: 'user',
+    enum: ['user', 'admin', 'moderator'],
   },
   //
 });
 
-users.virtual("capabilities").get(function () {
+users.virtual('capabilities').get(function () {
   let acl = {
-    user: ["read", "create", "update", "delete"],
-    admin: ["read", "create", "update", "delete"],
-    moderator: ["read"],
+    user: ['read', 'create', 'update', 'delete'],
+    admin: ['read', 'create', 'update', 'delete'],
+    moderator: ['read'],
   };
   return acl[this.role];
 });
@@ -94,10 +97,10 @@ users.statics.authenticateBasic = async function (username, password) {
   if (valid) {
     return user;
   }
-  throw new Error("Invalid User");
+  throw new Error('Invalid User');
 };
 
-users.virtual("token").get(function () {
+users.virtual('token').get(function () {
   let tokenObject = {
     username: this.username,
     id: this.id,
@@ -105,8 +108,8 @@ users.virtual("token").get(function () {
   return jwt.sign(tokenObject, process.env.SECRET);
 });
 
-users.pre("save", async function () {
-  if (this.isModified("password")) {
+users.pre('save', async function () {
+  if (this.isModified('password')) {
     this.password = await bcrypt.hash(this.password, 10);
   }
 });
@@ -125,4 +128,4 @@ users.statics.authenticateWithToken = async function (token) {
   }
 };
 
-module.exports = mongoose.model("users", users);
+module.exports = mongoose.model('users', users);
