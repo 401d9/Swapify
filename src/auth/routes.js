@@ -388,7 +388,20 @@ router.get("/posts/profile/:username", async (req, res) => {
     res.status(500).json(err);
   }
 });
-
+router.put("/posts/:id/like", async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    if (!post.likes.includes(req.body.userId)) {
+      await post.updateOne({ $push: { likes: req.body.userId } });
+      res.status(200).json("The post has been liked");
+    } else {
+      await post.updateOne({ $pull: { likes: req.body.userId } });
+      res.status(200).json("The post has been disliked");
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 //**************get user */
 router.get("/users/:userId", async (req, res, next) => {
   try {
