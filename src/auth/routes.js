@@ -30,8 +30,8 @@ router.post('/signup', async (req, res, next) => {
     };
     obj={
       username:output.user.username,
-      state:'You Successfully Signed Up'
-    }
+      state:'You Successfully Signed Up',
+    };
     if (output.user.rate.length === 0) {
       res.status(201).json(obj);
       // res.status(201).redirect('/profile');
@@ -55,17 +55,22 @@ router.post('/signin', basicAuth, (req, res, next) => {
   console.log('/signin_back');
   try {
     const user = {
-      user: req.user,
+      username:req.user.username,
+      dashboard: req.user.dashboard,
+      descriptionOfUser :req.user.descriptionOfUser,
+      email: req.user.email,
+      experience: req.user.experience,
+      name: req.user.name,
+      notifications:req.user.notifications,
+      profileCover: req.user.profileCover,
+      profilePicture: req.user.profilePicture,
+      role: req.user.role,
+      service: req.user.service,
+      _id: req.user._id,
       token: req.user.token,
-  
     };
     console.log(user);
-    let obj={
-      username:user.user.username,
-      token:user.token,
-      state:'You Successfully Signed In',
-    };
-    res.status(200).json(user.user);
+    res.status(200).json(user);
   } catch (error) {
     console.log('error');
     next(error.message);
@@ -150,18 +155,10 @@ router.put('/profile',bearerAuth,acl('update'), async(req, res,next) => {
     let updateEntry = await User.findByIdAndUpdate(id, req.body,{new:true});
     console.log(updateEntry);
     let obj={
-      username:updateEntry.username,
       name:updateEntry.name,
       service:updateEntry.service,
       experience:updateEntry.experience,
       descriptionOfUser:updateEntry.descriptionOfUser,
-      rate:updateEntry.rate,
-      role:req.user.role,
-      id:updateEntry._id,
-      messages:updateEntry.messages,
-      dashboard:updateEntry.dashboard,
-      notifications:updateEntry.notifications,
-
     };
     res.status(200).json(obj);
   } catch (error) {
@@ -203,11 +200,11 @@ router.get('/notifications',bearerAuth, async (req,res,next) => {
 
 /******************************************************************************* */
 
-const Message = require("./models/Message");
+const Message = require('./models/Message');
 
 //add
 
-router.post("/messages", async (req, res) => {
+router.post('/messages', async (req, res) => {
   const newMessage = new Message(req.body);
 
   try {
@@ -220,7 +217,7 @@ router.post("/messages", async (req, res) => {
 
 //get
 
-router.get("/messages/:conversationId", async (req, res) => {
+router.get('/messages/:conversationId', async (req, res) => {
   try {
     const messages = await Message.find({
       conversationId: req.params.conversationId,
@@ -231,21 +228,21 @@ router.get("/messages/:conversationId", async (req, res) => {
   }
 });
 
-const Conversation = require("./models/Conversation");
+const Conversation = require('./models/Conversation');
 
 //new conv
 
-router.post("/conversations", async (req, res) => {
+router.post('/conversations', async (req, res) => {
   
   const ifThere = await Conversation.find({
     members: { $in: [req.body.senderId] },
   });
   let data=[];
-   ifThere.forEach(obj=>{
-      obj.members.forEach(a=>{
-       data.includes(a) ? null:data.push(a);
-      })
-    }); 
+  ifThere.forEach(obj=>{
+    obj.members.forEach(a=>{
+      data.includes(a) ? null:data.push(a);
+    });
+  }); 
 
   console.log('new' ,ifThere);
   console.log('data.includes(req.body.receiverId)' ,data.includes(req.body.receiverId));
@@ -266,7 +263,7 @@ router.post("/conversations", async (req, res) => {
 });
 
 
-router.get("/conversations/:userId", async (req, res) => {
+router.get('/conversations/:userId', async (req, res) => {
   try {
     const conversation = await Conversation.find({
       members: { $in: [req.params.userId] },
@@ -279,12 +276,12 @@ router.get("/conversations/:userId", async (req, res) => {
 
 // get conv includes two userId
 
-router.get("/conversations/find/:firstUserId/:secondUserId", async (req, res) => {
+router.get('/conversations/find/:firstUserId/:secondUserId', async (req, res) => {
   try {
     const conversation = await Conversation.findOne({
       members: { $all: [req.params.firstUserId, req.params.secondUserId] },
     });
-    res.status(200).json(conversation)
+    res.status(200).json(conversation);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -293,11 +290,11 @@ router.get("/conversations/find/:firstUserId/:secondUserId", async (req, res) =>
 
 
 /***************************************** */
-const Post = require("./models/Post");
+const Post = require('./models/Post');
 
 //create a post
 
-router.post("/posts/upload", async (req, res) => {
+router.post('/posts/upload', async (req, res) => {
   console.log('req_post', req.body);
   const newPost = new Post(req.body);
   try {
@@ -311,14 +308,14 @@ router.post("/posts/upload", async (req, res) => {
 
 //update a post
 
-router.put("posts/:id", async (req, res) => {
+router.put('posts/:id', async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     if (post.userId === req.body.userId) {
       await post.updateOne({ $set: req.body });
-      res.status(200).json("the post has been updated");
+      res.status(200).json('the post has been updated');
     } else {
-      res.status(403).json("you can update only your post");
+      res.status(403).json('you can update only your post');
     }
   } catch (err) {
     res.status(500).json(err);
@@ -326,14 +323,14 @@ router.put("posts/:id", async (req, res) => {
 });
 //delete a post
 
-router.delete("posts/:id", async (req, res) => {
+router.delete('posts/:id', async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     if (post.userId === req.body.userId) {
       await post.deleteOne();
-      res.status(200).json("the post has been deleted");
+      res.status(200).json('the post has been deleted');
     } else {
-      res.status(403).json("you can delete only your post");
+      res.status(403).json('you can delete only your post');
     }
   } catch (err) {
     res.status(500).json(err);
@@ -341,15 +338,15 @@ router.delete("posts/:id", async (req, res) => {
 });
 //like / dislike a post
 
-router.put("posts/:id/like", async (req, res) => {
+router.put('posts/:id/like', async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     if (!post.likes.includes(req.body.userId)) {
       await post.updateOne({ $push: { likes: req.body.userId } });
-      res.status(200).json("The post has been liked");
+      res.status(200).json('The post has been liked');
     } else {
       await post.updateOne({ $pull: { likes: req.body.userId } });
-      res.status(200).json("The post has been disliked");
+      res.status(200).json('The post has been disliked');
     }
   } catch (err) {
     res.status(500).json(err);
@@ -357,7 +354,7 @@ router.put("posts/:id/like", async (req, res) => {
 });
 //get a post
 
-router.get("posts/:id", async (req, res) => {
+router.get('posts/:id', async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     res.status(200).json(post);
@@ -368,7 +365,7 @@ router.get("posts/:id", async (req, res) => {
 
 //get timeline posts
 
-router.get("/posts/timeline", async (req, res) => {
+router.get('/posts/timeline', async (req, res) => {
   try {
     const allPosts = await Post.find();
     res.status(200).json(allPosts);
@@ -379,7 +376,7 @@ router.get("/posts/timeline", async (req, res) => {
 
 //get user's all posts
 
-router.get("/posts/profile/:username", async (req, res) => {
+router.get('/posts/profile/:username', async (req, res) => {
   try {
     const user = await User.findOne({ username: req.params.username });
     const posts = await Post.find({ userId: user._id });
