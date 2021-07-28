@@ -146,7 +146,7 @@ let usersArray = [];
 // Run when client connects
 const io = require('socket.io')(http, {
   cors: {
-    origin: 'https://swapo-app.netlify.app/',
+    origin: '*',
   },
 });
 
