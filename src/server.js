@@ -141,8 +141,10 @@ let allMessages = [];
 // All online users
 let usersArray = [];
 
+
+
 // Run when client connects
-const io = require('socket.io')(8900, {
+const io = require('socket.io')(http, {
   cors: {
     origin: 'http://localhost:3000',
   },
@@ -215,7 +217,7 @@ module.exports = {
   start: (port) => {
     http.listen(port, () => {
       console.log(`🚀 ~ file: server.js ~ line 191 ~ app.listen ~ we are launching 🔥 on port ➡️ ${port}`);
-      console.log('Click on the link to visit the app. Go to http://' + 'localhost' + ':' + port);
+      console.log('Click on the link to visit the app. Go to http://' + 'localhost' + ':' + port + '||' + http);
     });
   },
 };
