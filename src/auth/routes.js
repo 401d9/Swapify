@@ -153,16 +153,45 @@ router.get("/profile", bearerAuth, async (req, res, next) => {
 router.put("/profile", bearerAuth, acl("update"), async (req, res, next) => {
   try {
     let id = req.user.id;
-    let updateEntry = await User.findByIdAndUpdate(id, req.body, { new: true });
-    console.log(updateEntry);
-    let obj = {
-      name: updateEntry.name,
-      service: updateEntry.service,
-      experience: updateEntry.experience,
-      descriptionOfUser: updateEntry.descriptionOfUser,
+    let UpdatedObj = {
+      name: req.body.name ? req.body.name : req.user.name,
+      email: req.body.email ? req.body.email : req.user.email,
+      service: req.body.service ? req.body.service : req.user.service,
+      descriptionOfUser: req.body.descriptionOfUser
+        ? req.body.descriptionOfUser
+        : req.user.descriptionOfUser,
+      experience: req.body.experience
+        ? req.body.experience
+        : req.user.experience,
+      profilePicture: req.body.profilePicture
+        ? req.body.profilePicture
+        : req.user.profilePicture,
+      profileCover: req.body.profileCover
+        ? req.body.profileCover
+        : req.user.profileCover,
     };
-    res.status(200).json(obj);
+
+    let updateEntry = await User.findByIdAndUpdate(id, UpdatedObj, {
+      new: true,
+    });
+    const response = {
+      dashboard: updateEntry.dashboard,
+      descriptionOfUser: updateEntry.descriptionOfUser,
+      email: updateEntry.email,
+      experience: updateEntry.experience,
+      name: updateEntry.name,
+      notifications: updateEntry.notifications,
+      profileCover: updateEntry.profileCover,
+      profilePicture: updateEntry.profilePicture,
+      role: updateEntry.role,
+      service: updateEntry.service,
+      token: req.token,
+      username: updateEntry.username,
+      _id: updateEntry._id,
+    };
+    res.status(200).json(response);
   } catch (error) {
+    console.log(error);
     next(error.message);
   }
 });
@@ -188,13 +217,11 @@ router.get("/notifications", bearerAuth, async (req, res, next) => {
         return "John";
       }
     });
-    res
-      .status(200)
-      .json({
-        numberOfNotifications: object.notifications.length,
-        notificationsFrom: notificationsUsers,
-        notifications: object.notifications,
-      });
+    res.status(200).json({
+      numberOfNotifications: object.notifications.length,
+      notificationsFrom: notificationsUsers,
+      notifications: object.notifications,
+    });
   } catch (error) {
     next(error.message);
   }
@@ -439,8 +466,10 @@ router.put("/notif", async (req, res, next) => {
 
 /*************** */
 router.put("/posts/:postId", async (req, res, next) => {
-  console.log('routes/429', req.params.postId, req.body);
-  await Post.findByIdAndUpdate(req.params.postId, { $set: { desc: req.body.newDesc } });
+  console.log("routes/429", req.params.postId, req.body);
+  await Post.findByIdAndUpdate(req.params.postId, {
+    $set: { desc: req.body.newDesc },
+  });
 });
 
 router.delete("/posts/:postId", async (req, res, next) => {
